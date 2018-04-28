@@ -42,16 +42,22 @@
                         </ul>
                       </header>
                     </div>
-                    <div class="card-lane">
+          
+
+                    <div class="card-lane" id="progreso">          
+{% for entity in tareas if entity.estado == 'P' %}                    
+
                       <div class="card card-task-item" data-drawer="open-right-lg">
-                        <div data-task-id="" class="bg-white">
+                        <div  data-task-id="{{entity.id}}" class="bg-white">
+
+                        <input type="hidden" value="{{ entity.id }}" id="dataid" >
                           <header class="card-heading">
-                            <h2 class="card-title" data-task="title">Titulo</h2>
+                            <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
                           </header>
                           <div class="card-body">
-                            <p>Texto Lorem ipsum dolor sit amet....</p>
+                            <p>{{ entity.descripcion }}</p>
                             <p data-task="notes">
-                              Texto Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                              {{ entity.descripcion }}
                             </p>
                           </div>
                           <div class="card-footer border-top">
@@ -67,51 +73,24 @@
                             </ul>
                             <ul class="card-actions right-bottom">
                               <li class="">
-                                <span class="task-number"></span>
+                                <span class="task-number">#{{entity.id}}</span>
                               </li>
                             </ul>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="card-lane">
-                      <div class="card card-task-item" data-drawer="open-right-lg">
-                        <div data-task-id="" class="bg-white">
-                          <header class="card-heading">
-                            <h2 class="card-title" data-task="title">Titulo 2</h2>
-                          </header>
-                          <div class="card-body">
-                            <p>Texto Lorem ipsum dolor sit amet....</p>
-                            <p data-task="notes">
-                              Texto Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-                          </div>
-                          <div class="card-footer border-top">
-                            <ul class="card-actions icons left-bottom" data-task="metadata">
-                              <li class="">
-                                <i class="zmdi zmdi-comment"></i>
-                                <span>2</span>
-                              </li>
-                              <li class="">
-                                <i class="mdi mdi-note-text"></i>
-                                <span>1</span>
-                              </li>
-                            </ul>
-                            <ul class="card-actions right-bottom">
-                              <li class="">
-                                <span class="task-number"></span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
+ {% endfor %}                     
                     </div>
 
 
-                    <div class="add-task text-center">
+                    {# <div class="add-task text-center">
                       <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-task="add-task"><i class="zmdi zmdi-plus"></i></button>
-                    </div>
+                    </div> #}
+                  <div class="add-task text-center">
+                      <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-whatever="P" data-toggle="modal" data-target="#myModal"><i class="zmdi zmdi-plus" ></i></button>
+                    </div> 
+
+
                   </section>
                 </div>
         <!--FINPROGRESO-->
@@ -138,16 +117,26 @@
                         </ul>
                       </header>
                     </div>
-                    <div class="card-lane">
+           
+
+                    <div class="card-lane" id="finalizado">
+{% for entity in tareas if entity.estado == 'F' %}   
+                 
                       <div class="card card-task-item" data-drawer="open-right-lg">
-                        <div data-task-id="" class="bg-white">
+                        <div data-task-id="{{entity.id}}" class="bg-white">
+
+<input type="hidden" value="{{ entity.id }}" id="dataid" >
+
+
                           <header class="card-heading">
-                            <h2 class="card-title" data-task="title">Titulo</h2>
+
+
+                            <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
                           </header>
                           <div class="card-body">
-                            <p>Texto Lorem ipsum dolor sit amet....</p>
+                            <p>{{ entity.descripcion }}</p>
                             <p data-task="notes">
-                              Texto Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                              {{ entity.descripcion }}
                             </p>
                           </div>
                           <div class="card-footer border-top">
@@ -163,15 +152,17 @@
                             </ul>
                             <ul class="card-actions right-bottom">
                               <li class="">
-                                <span class="task-number"></span>
+                                <span class="task-number">#{{entity.id}}</span>
                               </li>
                             </ul>
                           </div>
                         </div>
                       </div>
+         {% endfor %}                        
                     </div>
+         
                     <div class="add-task text-center">
-                      <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-task="add-task"><i class="zmdi zmdi-plus"></i></button>
+                      <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-toggle="modal" data-whatever="F" data-target="#myModal"><i class="zmdi zmdi-plus" ></i></button>
                     </div>
                   </section>
                 </div>
@@ -199,16 +190,25 @@
                         </ul>
                       </header>
                     </div>
-                    <div class="card-lane">
+                    
+
+
+                    <div class="card-lane" id="archivado">
+              {% for entity in tareas if entity.estado == 'A' %}
+
                       <div class="card card-task-item" data-drawer="open-right-lg">
-                        <div data-task-id="" class="bg-white">
+                        <div data-task-id="{{entity.id}}" class="bg-white">
+
+<input type="hidden" value="{{ entity.id }}" id="dataid" >
+
+
                           <header class="card-heading">
-                            <h2 class="card-title" data-task="title">Titulo</h2>
+                            <h2 class="card-title" data-task="title">{{ entity.titulo }}</h2>
                           </header>
                           <div class="card-body">
-                            <p>Texto Lorem ipsum dolor sit amet....</p>
+                            <p>{{ entity.descripcion }}</p>
                             <p data-task="notes">
-                              Texto Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                              {{ entity.descripcion }}
                             </p>
                           </div>
                           <div class="card-footer border-top">
@@ -224,15 +224,17 @@
                             </ul>
                             <ul class="card-actions right-bottom">
                               <li class="">
-                                <span class="task-number"></span>
+                                <span class="task-number">#{{entity.id}}</span>
                               </li>
                             </ul>
                           </div>
                         </div>
                       </div>
+           {% endfor %}                      
                     </div>
+         
                     <div class="add-task text-center">
-                      <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-task="add-task"><i class="zmdi zmdi-plus"></i></button>
+                      <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-toggle="modal" data-whatever="A"data-target="#myModal"><i class="zmdi zmdi-plus"></i></button>
                     </div>
                   </section>
                 </div>
@@ -281,6 +283,17 @@
                   <div class="card p-15 m-b-10">
                     <div class="task-created">
                         Timer: Tiempo pause play
+
+<div id="chronoExample">
+    <div class="values">00:00:00</div>
+    <div>
+        <button class="startButton">Start</button>
+        <button class="pauseButton" >Pause</button>
+        <button class="stopButton">Stop</button>
+        <button class="resetButton">Reset</button>
+    </div>
+</div>
+
                     </div>
                   </div>
                   <div class="card card-active" data-active-id="">
@@ -926,6 +939,179 @@
             </div>
           </aside>
 
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Agregar Tarea</h4>
+      </div>
+      <div class="modal-body">
+
+
+        
+  {{ form_start(form , { 'attr': {'role': 'form','novalidate':'novalidate', 'class':'form-horizontal','id':'formtask'} }) }}
+   
+
+   {{ form_row(form.titulo,{'label':'Titulo Task','attr': {'class': 'form-control','placeholder':'Titulo Task', 'title': 'Mencione titulo del Task'} } ) }}  
+
+   {{ form_row(form.descripcion,{'label':'Descripcion de Task','attr': {'class': 'form-control','placeholder':'Descripcion de Task', 'title': 'Mencione descripcion del Task'} } ) }}  
+
+
+   {{ form_row(form.fechacreacion,{'label':'Fecha de Creacion','attr': {'class': 'form-control js-datepicker','placeholder':'Fecha de Creacion', 'title': 'Fecha de Creacion'} } ) }}  
+
+
+  {{ form_row(form.fechacomienzo,{'label':'Fecha de Comienzo','attr': {'class': 'form-control','placeholder':'Fecha de Creacion', 'title': 'Fecha de Comienzo'} } ) }}  
+      
+    
+
+{{ form_row(form.fechafin,{'label':'Fecha Fin','attr': {'class': 'form-control','placeholder':'Fecha de Creacion', 'title': 'Fecha Fin'} } ) }}  
+    
+
+  
+      </div>
+      <div class="modal-footer">
+<button type="button"  id="xcerrar" class="btn btn-sm btn-success btn-md pull-right" data-dismiss="modal"><i class="zmdi zmdi-minus"></i></button>
+<button type="submit" id="creardatos" data-dismiss="modal"  class="btn btn-sm btn-success btn-md pull-right"><i class="zmdi zmdi-plus"></i></button>
+        
+      </div>
+{{ form_end(form) }}
+
+    </div>
+
+  </div>
+</div>          
+
 {% endblock %}
 
 
+{% block javascript %}
+<script>
+
+$( "form" ).on( "submit", function( event ) {
+    event.preventDefault();
+    
+    });
+
+ $("#creardatos").click(function () {  
+        
+        $.ajax({
+              url:   '{{ url('task') }}',
+              type: "POST",
+              data: $("#formtask").serialize(),
+              beforeSend: function () {
+              },
+              success:  function (response) {
+                //mostrar Se elimino en un mensaje       
+                //var tr = vinclulo.parent().parent().remove();
+                //tr.remove();
+                //$(document.body).html(response);
+          //      $('html, body').animate({scrollTop: $("#progreso").offset().top}, 0);
+               //$(document.body).scrollspy('refresh')
+              //  $("#progreso").load(" #progreso");
+          var valor = $('#myModal').find('#form_estado').val();
+          progreso(valor);
+
+              }
+            });
+      });
+
+   $('#myModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var recipient = button.data('whatever'); // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this);
+  
+ // modal.find('.modal-title').text('N° DE ID ' + recipient)
+modal.find('#form_estado').val(recipient);
+
+  
+})
+
+
+
+function progreso(valor){
+var dato = valor;
+$.ajax({      
+      
+      url:   '{{ url('progreso') }}',
+      type: "GET",
+      data: { valor : dato },    
+      beforeSend: function () {
+      },
+      success:  function (response) {
+        if (valor == "P"){
+             $("#progreso").html(response);
+              $(document.body).scrollspy('refresh')
+        }
+
+        if (valor == "F"){
+             $("#finalizado").html(response);
+              $(document.body).scrollspy('refresh')
+        }
+
+        if (valor == "A"){
+             $("#archivado").html(response);
+              $(document.body).scrollspy('refresh')
+        }
+      }
+    });
+
+
+
+}
+
+
+function statustask(id,status){
+
+
+$.ajax({      
+      
+      url:   '{{ url('cambiarstatus') }}',
+      type: "GET",
+      data: { id : id, status:status },    
+      beforeSend: function () {
+      },
+      success:  function (response) {
+        
+      }
+    });
+
+
+
+
+}
+
+ 
+
+ var timer = new Timer();
+$('#chronoExample .startButton').click(function () {
+    timer.start();
+});
+$('#chronoExample .pauseButton').click(function () {
+    timer.pause();
+});
+$('#chronoExample .stopButton').click(function () {
+    timer.stop();
+});
+$('#chronoExample .resetButton').click(function () {
+    timer.reset();
+});
+timer.addEventListener('secondsUpdated', function (e) {
+    $('#chronoExample .values').html(timer.getTimeValues().toString());
+});
+timer.addEventListener('started', function (e) {
+    $('#chronoExample .values').html(timer.getTimeValues().toString());
+});
+timer.addEventListener('reset', function (e) {
+    $('#chronoExample .values').html(timer.getTimeValues().toString());
+});
+        
+
+  </script>
+{% endblock %}

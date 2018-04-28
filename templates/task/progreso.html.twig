@@ -1,0 +1,38 @@
+{% for entity in tareas  %}                    
+                      <div class="card card-task-item" data-drawer="open-right-lg">
+                        <div data-task-id="{{entity.id}}" class="bg-white">
+                          <header class="card-heading">
+
+                          
+                        <input type="hidden" value="{{ entity.id }}" id="dataid" >
+                            <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
+                          </header>
+                          <div class="card-body">
+                            <p>{{ entity.descripcion }}</p>
+                            <p data-task="notes">
+                              {{ entity.descripcion }}
+                            </p>
+                          </div>
+                          <div class="card-footer border-top">
+                            <ul class="card-actions icons left-bottom" data-task="metadata">
+                              <li class="">
+                                <i class="zmdi zmdi-comment"></i>
+                                <span>2</span>
+                              </li>
+                              <li class="">
+                                <i class="mdi mdi-note-text"></i>
+                                <span>1</span>
+                              </li>
+                            </ul>
+                            <ul class="card-actions right-bottom">
+                              <li class="">
+                                <span class="task-number">#{{entity.id}}</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+ {% endfor %} 
+
+
+         <script src="{{ ('assets/js/app.bundle.js') }}"></script>

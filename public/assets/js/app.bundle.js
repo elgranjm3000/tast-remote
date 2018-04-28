@@ -615,6 +615,7 @@
 	// Unique ID
 	Materialize.guid = function () {
 	  function s4() {
+
 	    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 	  }
 	  return function () {
@@ -5142,7 +5143,7 @@
 	      taskCardNotes: $this.find('[data-task="notes"]').text().trim(),
 	      taskCardMetaData: $this.find('[data-task="metadata"]')
 	    };
-	    console.log(taskCard.taskListTitle);
+	    console.log("MOVIENDOSE "+taskCard.taskListTitle);
 	    //Remove data
 	    $('#task-info-wrapper .card-heading .card-number').text('');
 	    $('#task-info-wrapper .card-body #editTaskTitle').text('');
@@ -5185,19 +5186,20 @@
 	  $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit">' + '<i class="mdi mdi-check"></i>' + '</button>' + '<button type="button" class="btn btn-default btn-fab btn-fab-xs m-5 editable-cancel">' + '<i class="mdi mdi-close"></i>' + '</button>';
 	};
 	var uniqId = function uniqId() {
+		console.log("matematica");
 	  return Math.floor(Math.random() * 90000) + 10000;
 	};
 	var loadTaskId = function loadTaskId() {
 	  if ($('.card-task-item.active').length > 0) {
 	    var getId = uniqId();
-	    $('.card-task-item.active').find('[data-task-id]').data('taskId', getId);
+	   // $('.card-task-item.active').find('[data-task-id]').data('taskId', getId);
 	    $('.card-task-item.active').removeClass('active');
 	  } else {
 	    $('div[data-task-id]').each(function () {
 	      var $cardItem = $(this).parents('.card.card-task-item'),
 	          getId = uniqId();
-	      $(this).attr('data-task-id', getId);
-	      $cardItem.find('.task-number').text('#' + getId);
+	     // $(this).attr('data-task-id', getId);
+	     // $cardItem.find('.task-number').text('#' + getId);
 	      getTaskCount();
 	    });
 	  }
@@ -5369,22 +5371,47 @@
 	  });
 	};
 	var dragDropTask = function dragDropTask() {
-	  var drake = dragula({});
+
+
+var contentarea1 = $("#progreso")[0];
+var contentarea2 = $("#finalizado")[0];
+var contentarea3 = $("#archivado")[0];
+
+
+
+	  var drake = dragula([contentarea1, contentarea2, contentarea3]);
+
+
+
+
+	  console.log("drake: "+drake);
 	  $('.card-lane').each(function () {
+	  	
 	    drake.containers.push($(this).get(0));
 	    drake.on('drag', function (el) {
+	    	console.log("drag");
 	      el.classList.add('is-moving');
 	    }).on('dragend', function (el) {
+	    	console.log("dragend");
 	      el.classList.remove('is-moving');
 	      window.setTimeout(function () {
 	        el.classList.add('is-moved');
+	        
 	        faded();
+	      guardar();
+
 	      }, 100);
 	    });
+  //guardar();
+
 	  });
 	  var faded = function faded() {
+	  	console.log("faded");
 	    $('#fadedColor').remove();
 	    var getColor = $('.is-moved').parents('.card-lane-wrapper').find('[data-task-color]').data('taskColor');
+	    var getId = $('.is-moved').parents('.card-lane-wrapper').find('#dataid').val();
+	    console.log("SELECCIONADO"+getId);
+	    
 	    $('.is-moved').prepend('<div id="fadedColor" class="' + getColor + '"></div>');
 	    window.setTimeout(function () {
 	      $('#fadedColor').remove();
@@ -5392,6 +5419,36 @@
 	      getTaskCount();
 	    }, 350);
 	  };
+
+	  var guardar = function guardar(){
+
+	  		$("#progreso #dataid").each(function(){
+        	    //alert($(this).text())
+        	    var getId = $(this).val();
+        	    console.log("nro "+getId);
+        	    statustask(getId,'P');
+        	});
+
+
+        	$("#finalizado #dataid").each(function(){
+        	    //alert($(this).text())
+        	    var getId = $(this).val();
+        	    console.log("nro "+getId);
+        	    statustask(getId,'F');
+        	});
+
+
+        	$("#archivado #dataid").each(function(){
+        	    //alert($(this).text())
+        	    var getId = $(this).val();
+        	    console.log("nro "+getId);
+        	    statustask(getId,'A');
+        	});
+
+	  };
+
+
+
 	};
 	exports.getTaskCardInfo = getTaskCardInfo;
 	exports.loadTaskId = loadTaskId;

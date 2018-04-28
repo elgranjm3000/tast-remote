@@ -71,11 +71,11 @@ class Task
         return $this->titulo;
     }
 
-    public function setTitulo(string $titulo): self
+    public function setTitulo($titulo)
     {
         $this->titulo = $titulo;
 
-        return $this;
+        //return $this;
     }
 
     public function getDescripcion(): ?string

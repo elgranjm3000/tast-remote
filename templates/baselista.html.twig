@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <div id="app_wrapper">
+  <div id="app_wrapper" class="taskboard-app">
     <header id="app_topnavbar-wrapper">
       <nav role="navigation" class="navbar topnavbar">
         <div class="nav-wrapper">
@@ -307,6 +307,12 @@
 
         <script src="{{ ('assets/js/vendor.bundle.js') }}"></script>
         <script src="{{ ('assets/js/app.bundle.js') }}"></script>
+        <script src="{{ ('assets/js/app.bundle.js') }}"></script>
+        <script src="{{ ('assets/js/easytimer.min.js') }}"></script>
+
+
+        {% block javascript %}
+        {% endblock %}
       </body>
       
       </html>

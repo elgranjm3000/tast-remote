@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Task;
+use App\Entity\Taskboard;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -42,8 +43,9 @@ class TaskController extends Controller
     public function progreso(Request $request)
     {
     	$valor = $_GET['valor'];
+    	$idtaskboard = $_GET['idtaskboard'];
     	$repository = $this->getDoctrine()->getRepository(Task::class);
-		$tareas = $repository->findBy(['estado' => $valor]);
+		$tareas = $repository->findBy(['estado' => $valor,'idtaskboad'=>$idtaskboard]);
 
 		 return $this->render('task/progreso.html.twig', ['tareas'=>$tareas
         ]);
@@ -51,13 +53,14 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/task", name="task")
+     * @Route("/task/{id}", name="task")
      */
-    public function index(Request $request)
+    public function index(Request $request,$id)
     {
 
 		$repository = $this->getDoctrine()->getRepository(Task::class);
-		$tareas = $repository->findAll();
+		$tareas = $repository->findBy(['idtaskboad'=>$id]);
+
 
 
 
@@ -85,21 +88,22 @@ $form->handleRequest($request);
         // $form->getData() holds the submitted values
         // but, the original `$task` variable has also been updated
         $task = $form->getData();
+        $ip=$this->getDoctrine()->getEntityManager();  
 
         // ... perform some action, such as saving the task to the database
         // for example, if Task is a Doctrine entity, save it!
          $entityManager = $this->getDoctrine()->getManager();
          $task->setTiempo("0");
          $task->setIduser(1);
-         $task->setIdfile(1);
+         $task->setTaskboard($ip->getReference(Taskboard::class,$id));
          $entityManager->persist($task);
          $entityManager->flush();
-            return $this->redirect($this->generateUrl('task', array()));
+            return $this->redirect($this->generateUrl('task', array('id'=>$id)));
 
      //   return $this->redirectToRoute('task_success');
     }
         return $this->render('task/list.html.twig', [
-            'controller_name' => 'TaskController', 'form' => $form->createView(),'tareas'=>$tareas
+            'controller_name' => 'TaskController', 'form' => $form->createView(),'tareas'=>$tareas,'idtask' => $id
         ]);
     }
 }

@@ -36,6 +36,12 @@ class Files
      */
     private $size;
 
+
+     /**
+     * @ORM\Column(type="integer")
+     */
+    private $idtask;
+
     public function getId()
     {
         return $this->id;
@@ -85,6 +91,18 @@ class Files
     public function setSize(string $size): self
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    public function getIdtask(): ?int
+    {
+        return $this->idtask;
+    }
+
+    public function setIdtask(int $idtask): self
+    {
+        $this->idtask = $idtask;
 
         return $this;
     }

@@ -1000,7 +1000,7 @@ $( "form" ).on( "submit", function( event ) {
  $("#creardatos").click(function () {  
         
         $.ajax({
-              url:   '{{ url('task') }}',
+              url:   '{{ url('task',{'id':idtask}) }}',
               type: "POST",
               data: $("#formtask").serialize(),
               beforeSend: function () {
@@ -1014,7 +1014,7 @@ $( "form" ).on( "submit", function( event ) {
                //$(document.body).scrollspy('refresh')
               //  $("#progreso").load(" #progreso");
           var valor = $('#myModal').find('#form_estado').val();
-          progreso(valor);
+          progreso(valor,{{idtask}});
 
               }
             });
@@ -1035,13 +1035,14 @@ modal.find('#form_estado').val(recipient);
 
 
 
-function progreso(valor){
+function progreso(valor,idfuncion){
 var dato = valor;
+var id = idfuncion
 $.ajax({      
       
       url:   '{{ url('progreso') }}',
       type: "GET",
-      data: { valor : dato },    
+      data: { valor : dato, idtaskboard: idfuncion },    
       beforeSend: function () {
       },
       success:  function (response) {
@@ -1088,10 +1089,9 @@ $.ajax({
 }
 
  
-
  var timer = new Timer();
 $('#chronoExample .startButton').click(function () {
-    timer.start();
+    timer.start({countdown: false, startValues: {seconds: 30, minutes:5}});
 });
 $('#chronoExample .pauseButton').click(function () {
     timer.pause();
@@ -1104,6 +1104,7 @@ $('#chronoExample .resetButton').click(function () {
 });
 timer.addEventListener('secondsUpdated', function (e) {
     $('#chronoExample .values').html(timer.getTimeValues().toString());
+
 });
 timer.addEventListener('started', function (e) {
     $('#chronoExample .values').html(timer.getTimeValues().toString());
@@ -1111,7 +1112,8 @@ timer.addEventListener('started', function (e) {
 timer.addEventListener('reset', function (e) {
     $('#chronoExample .values').html(timer.getTimeValues().toString());
 });
-        
+
+
 
   </script>
 {% endblock %}

@@ -2,13 +2,33 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
+use Doctrine\Common\Collections\ArrayCollection;
+
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskboardRepository")
  */
 class Taskboard
 {
+
+
+// ...
+ 
+    /**
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="taskboard")
+     */
+    protected $task;
+ 
+    public function __construct()
+    {
+        $this->task = new ArrayCollection();
+    }
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -46,10 +66,7 @@ class Taskboard
      */
     private $userid;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $idtask;
+   
 
     public function getId()
     {
@@ -128,15 +145,36 @@ class Taskboard
         return $this;
     }
 
-    public function getIdtask(): ?int
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTask(): Collection
     {
-        return $this->idtask;
+        return $this->task;
     }
 
-    public function setIdtask(int $idtask): self
+    public function addTask(Task $task): self
     {
-        $this->idtask = $idtask;
+        if (!$this->task->contains($task)) {
+            $this->task[] = $task;
+            $task->setTaskboard($this);
+        }
 
         return $this;
     }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->task->contains($task)) {
+            $this->task->removeElement($task);
+            // set the owning side to null (unless already changed)
+            if ($task->getTaskboard() === $this) {
+                $task->setTaskboard(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 }

@@ -9,6 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Task
 {
+
+    // ... 
+    /**
+     * @ORM\ManyToOne(targetEntity="Taskboard", inversedBy="task")
+     * @ORM\JoinColumn(name="idtaskboad", referencedColumnName="id")
+     */
+    protected $taskboard;
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -59,7 +68,7 @@ class Task
     /**
      * @ORM\Column(type="integer")
      */
-    private $idfile;
+    private $idtaskboad;
 
     public function getId()
     {
@@ -170,6 +179,30 @@ class Task
     public function setIdfile(int $idfile): self
     {
         $this->idfile = $idfile;
+
+        return $this;
+    }
+
+    public function getIdtaskboad(): ?int
+    {
+        return $this->idtaskboad;
+    }
+
+    public function setIdtaskboad(int $idtaskboad): self
+    {
+        $this->idtaskboad = $idtaskboad;
+
+        return $this;
+    }
+
+    public function getTaskboard(): ?taskboard
+    {
+        return $this->taskboard;
+    }
+
+    public function setTaskboard(?taskboard $taskboard): self
+    {
+        $this->taskboard = $taskboard;
 
         return $this;
     }

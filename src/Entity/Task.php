@@ -60,6 +60,11 @@ class Task
      */
     private $tiempo;
 
+      /**
+     * @ORM\Column(type="string", length=1,nullable=true)
+     */
+    private $status;
+
     /**
      * @ORM\Column(type="integer")
      */
@@ -203,6 +208,18 @@ class Task
     public function setTaskboard(?taskboard $taskboard): self
     {
         $this->taskboard = $taskboard;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -286,13 +286,15 @@
 
 <div id="chronoExample">
     <div class="values">00:00:00</div>
+    <div class="values2">00:00:00</div>
     <div>
         <button class="startButton">Start</button>
         <button class="pauseButton" >Pause</button>
-        <button class="stopButton">Stop</button>
-        <button class="resetButton">Reset</button>
+        <button class="resetButton" >Pause</button>
+        
     </div>
 </div>
+                
 
                     </div>
                   </div>
@@ -303,6 +305,7 @@
                       <ul class="card-actions icons right-top">
                         <li>
                           <span class="card-number"></span>
+                          <span class="reporte"></span>
                         </li>
                         <li class="dropdown">
                           <a href="javascript:void(0)" data-toggle="dropdown">
@@ -997,6 +1000,7 @@ $( "form" ).on( "submit", function( event ) {
     
     });
 
+
  $("#creardatos").click(function () {  
         
         $.ajax({
@@ -1088,29 +1092,151 @@ $.ajax({
 
 }
 
- 
- var timer = new Timer();
-$('#chronoExample .startButton').click(function () {
-    timer.start({countdown: false, startValues: {seconds: 30, minutes:5}});
+ $('#tiempotranscurrido').click(function () {
+    
+    var tarjeta = $('.card-task-item').find('[data-task-id]').data('taskId');
+       
 });
-$('#chronoExample .pauseButton').click(function () {
-    timer.pause();
+
+var timeresto = new Timer();
+function buscartareas(idtask){
+  var idtask = idtask;
+       $.post( "{{path('taskboardbuscar')}}", { idtask: idtask }).done(function( data ) {
+              if(data.length>0){  
+                      var segundos = data[0]['tiempo'];
+
+                    if(segundos == 0){
+                      console.log("segundos en ceros");
+                        
+                        timeresto.reset();
+                        timeresto.stop();
+                        $(".values").empty();
+                        $(".values2").empty();
+                        return false;
+                        
+                      }  
+
+
+console.log(data[0]['tiempo']);
+console.log(data[0]['actual']);
+
+
+var fecha1 = moment(data[0]['tiempo'], "YYYY-MM-DD HH:mm:ss");
+var fecha2 = moment(data[0]['actual'], "YYYY-MM-DD HH:mm:ss");
+
+var diff = fecha2.diff(fecha1, 'd'); // Diff in days
+console.log(diff);
+
+var diff = fecha2.diff(fecha1, 'h'); // Diff in hours
+console.log(diff);
+
+var diff = fecha2.diff(fecha1, 'm'); // Diff in hours
+console.log(diff);
+
+
+var segundos = fecha2.diff(fecha1, 's'); // Diff in hours
+console.log("segundos en fechas "+segundos);
+
+if(data[0]['status'] == 'P'){
+  var segundos = data[0]['tiempo'];
+console.log("segundos en status P "+segundos);
+          timeresto.start({countdown: false, startValues: {seconds:segundos}});
+          timeresto.pause();
+                      
+}else{
+
+                      timeresto.stop();
+                      timeresto.start({countdown: false, startValues: {seconds:segundos}});
+}
+timeresto.addEventListener('secondsUpdated', function (e) {
+   //console.log(timeresto.getTotalTimeValues().seconds);
+    $('#chronoExample .values').html(timeresto.getTimeValues().toString());
+    $('#chronoExample .values2').html(timeresto.getTotalTimeValues().seconds);
 });
-$('#chronoExample .stopButton').click(function () {
-    timer.stop();
+timeresto.addEventListener('started', function (e) {
+     
+    $('#chronoExample .values').html(timeresto.getTimeValues().toString());
 });
-$('#chronoExample .resetButton').click(function () {
-    timer.reset();
+timeresto.addEventListener('reset', function (e) {
+     
+    $('#chronoExample .values').html(timeresto.getTimeValues().toString());
 });
-timer.addEventListener('secondsUpdated', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
+
+                     
+
+
+              }else{
+                /*alert("ESTE REGISTRO NO EXISTE");*/
+                //stop
+
+              }
+
+              
+          });
+
+
+}
+
+var fecha1 = moment("2016-05-03 07:30:00", "YYYY-MM-DD HH:mm:ss");
+var fecha2 = moment("2016-05-04 12:30:30", "YYYY-MM-DD HH:mm:ss");
+
+var diff = fecha2.diff(fecha1, 'd'); // Diff in days
+console.log(diff);
+
+var diff = fecha2.diff(fecha1, 'h'); // Diff in hours
+console.log(diff);
+
+var diff = fecha2.diff(fecha1, 'm'); // Diff in hours
+console.log(diff);
+
+
+var segundos = fecha2.diff(fecha1, 's'); // Diff in hours
+console.log(segundos);
+
+
+
+ $('#chronoExample .startButton').click(function () {
+    
+    
+    
+    console.log("NRO DE TARJETA "+$('.reporte').html());
+ $.post( "{{path('guardatiempo')}}", { reporte: $('.reporte').html() }).done(function( data ) {
+             
+                    timeresto.start();         
+              
+          });
+
 
 });
-timer.addEventListener('started', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
+
+$('#chronoExample .pauseButton').click(function () {
+    
+$.post( "{{path('pausatiempo')}}", { reporte: $('.reporte').html(), tiempo: $('.values2').html() }).done(function( data ) {
+             
+                    timeresto.pause();
+              
+          });
+
+
+
 });
-timer.addEventListener('reset', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
+$('#chronoExample .stopButton').click(function () {
+    timeresto.stop();
+});
+$('#chronoExample .resetButton').click(function () {
+    timeresto.reset();
+});
+timeresto.addEventListener('secondsUpdated', function (e) {
+    $('#chronoExample .values').html(timeresto.getTimeValues().toString());
+    $('#chronoExample .values2').html(timeresto.getTotalTimeValues().seconds);
+
+
+});
+timeresto.addEventListener('started', function (e) {
+    $('#chronoExample .values').html(timeresto.getTimeValues().toString());
+});
+timeresto.addEventListener('reset', function (e) {
+    $('#chronoExample .values').html(timeresto.getTimeValues().toString());
 });
 
 

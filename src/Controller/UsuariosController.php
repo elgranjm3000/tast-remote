@@ -16,4 +16,8 @@ class UsuariosController extends Controller
             'controller_name' => 'UsuariosController',
         ]);
     }
+
+
+    
+
 }

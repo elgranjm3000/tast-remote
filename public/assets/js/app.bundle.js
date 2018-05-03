@@ -5130,7 +5130,10 @@
 	var _filterList = __webpack_require__(38);
 	
 	var getTaskCardInfo = function getTaskCardInfo() {
+		var contador = 0;
 	  $('.card-task-item').on('click.taskInfo', function (e) {
+	  	contador = contador + 1;
+	  	console.log("contador "+$(this));
 	    var $this = $(this);
 	    $('#editTaskTitle,#editTaskNotes').editable("destroy");
 	    $('#task-info-wrapper .card-active .filter_members_list li:not(.filter)').removeClass('active');
@@ -5144,6 +5147,10 @@
 	      taskCardMetaData: $this.find('[data-task="metadata"]')
 	    };
 	    console.log("MOVIENDOSE "+taskCard.taskListTitle);
+	    console.log(taskCard.taskCardId);
+
+	   	buscartareas(taskCard.taskCardId);
+
 	    //Remove data
 	    $('#task-info-wrapper .card-heading .card-number').text('');
 	    $('#task-info-wrapper .card-body #editTaskTitle').text('');
@@ -5154,6 +5161,7 @@
 	    //Add new data
 	    $('#task-info-wrapper [data-active-id]').data('activeId', taskCard.taskCardId);
 	    $('#task-info-wrapper .card-heading .card-number').text('#' + taskCard.taskCardId);
+	    $('#task-info-wrapper .card-heading .reporte').text(taskCard.taskCardId);
 	    $('#task-info-wrapper .card-heading #taskListTitle').text(taskCard.taskListTitle);
 	    $('#task-info-wrapper .card [data-task-color]').addClass(taskCard.taskCardColor);
 	    $('#task-info-wrapper .card-body #editTaskTitle').text(taskCard.taskCardTitle);

@@ -198,6 +198,7 @@
 
     function updateUnitByPrecision(value, precision) {
       var previousValue = totalCounters[precision];
+      console.log(previousValue);
       updateCounters(precision, calculateIntegerUnitQuotient(value, unitsInMilliseconds[precision]));
 
       return totalCounters[precision] !== previousValue;
@@ -497,6 +498,7 @@
      * @param  {string} event [event to dispatch]
      */
     function dispatchEvent(event, data) {
+      console.log(event);
       if (hasDOM()) {
         eventEmitter.dispatchEvent(new CustomEvent(event, data));
       } else if (hasEventEmitter()) {

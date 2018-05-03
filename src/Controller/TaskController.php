@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class TaskController extends Controller
@@ -19,6 +20,67 @@ class TaskController extends Controller
 
 
 
+
+    /**
+     * @Route("/guardatiempo", name="guardatiempo")
+     */
+    public function tiempo(Request $request)
+    {
+       
+        $hoy = date("Y-m-d H:i:s");           
+        $id = $_POST['reporte'];        
+        $entityManager = $this->getDoctrine()->getManager();
+        $product = $entityManager->getRepository(Task::class)->find($id);
+
+        if($product->getStatus() == ''){
+                $product->setTiempo($hoy);
+                $product->setStatus("I");
+        }
+                $entityManager->flush();
+
+
+            exit;
+    }
+
+
+        /**
+     * @Route("/pausatiempo", name="pausatiempo")
+     */
+    public function pausatiempo(Request $request)
+    {
+       
+            
+        $id = $_POST['reporte'];        
+        $tiempo = $_POST['tiempo'];        
+        $entityManager = $this->getDoctrine()->getManager();
+        $product = $entityManager->getRepository(Task::class)->find($id);
+        $product->setTiempo($tiempo);
+        $product->setStatus("P");        
+        $entityManager->flush();
+
+
+            exit;
+    }
+
+
+
+/**
+     * @Route("/taskboardbuscar", name="taskboardbuscar")
+     */
+    public function buscar(Request $request)
+    {
+        $id = $_POST['idtask'];
+        $repository = $this->getDoctrine()->getRepository(Task::class);
+        $tareas = $repository->find($id);
+        $generardatos = array();
+        $localidad['fechacreacion'] =   $tareas->getFechacreacion();
+        $localidad['tiempo'] =   $tareas->getTiempo();
+        $localidad['actual'] =   date("Y-m-d H:i:s");   
+        $localidad['status'] =   $tareas->getStatus();
+         $generardatos[] = $localidad;
+        return new JsonResponse($generardatos);
+
+    }
 
 /**
      * @Route("/status", name="cambiarstatus")

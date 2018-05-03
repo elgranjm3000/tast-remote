@@ -19,7 +19,17 @@ class TaskController extends Controller
 {
 
 
+              
 
+
+
+ /**
+     * @Route("/", name="home")
+     */
+    public function home()
+    {
+        return $this->redirect($this->generateUrl('taskboard'));
+    }
 
     /**
      * @Route("/guardatiempo", name="guardatiempo")

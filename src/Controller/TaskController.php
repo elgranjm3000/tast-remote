@@ -19,6 +19,28 @@ class TaskController extends Controller
 {
 
 
+
+
+
+
+
+    /**
+     * @Route("/deletereporte", name="deletereporte")
+     */
+    public function deletereporte(Request $request)
+    {
+
+       $id = $_GET['id'];        
+      
+        $entityManager = $this->getDoctrine()->getManager();
+        $tareas = $entityManager->getRepository(Task::class)->find($id);
+       $entityManager->remove($tareas);
+        $entityManager->flush();
+        
+        exit;
+    }
+
+
     /**
      * @Route("/task/agregar/{id}", name="agregar")
      */

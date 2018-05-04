@@ -5257,6 +5257,13 @@ console.log(link);
 	      });
 	    }
 	  });
+
+
+  $('[data-task="task-delete"]').on('click', function (e) {
+	    console.log("LISTADO GENERAL");
+  });
+
+
 	};
 	var addNewTaskList = function addNewTaskList() {
 	  //Open "Add a list..."
@@ -5332,24 +5339,97 @@ console.log(link);
 	};
 	var deleteTask = function deleteTask() {
 	  $('[data-task="delete"]').on('click', function (e) {
+	  	console.log("ELIMINANDO");
 	    e.stopPropagation();
 	    var $this = $(this);
 	    setTimeout(function () {
 	      swal({
-	        title: 'Are you sure?',
-	        text: "You won't be able to revert this!",
+	        title: '¿Desea eliminar las tareas?',
+	        text: "No puede revertir los cambios",
 	        type: 'warning',
 	        showCancelButton: true,
 	        confirmButtonColor: '#3085d6',
 	        cancelButtonColor: '#d33',
-	        confirmButtonText: 'Yes, delete it!'
+	        confirmButtonText: 'Si, Eliminar!',
+	        cancelButtonText: "Cancelar",
 	      }).then(function () {
-	        $this.parents('.card-task-item').remove();
+	      	console.log("ELIMINANDO TODOS LOS REGISTROS");	      	
+	      	$('#progreso #dataid').each(function () {
+	      		var getId = $(this).val();
+        	    console.log("nro "+getId);
+        	    eliminarreporte(getId);
+	      	});
+	      	
+	        $('.progreso .card-task-item').remove();
 	        $('[data-task="add-task"]').removeAttr('disabled');
-	        swal('Deleted!', 'Your task has been removed.', 'success');
+	        swal('!Tareas Eliminadas!', 'Sus Tareas han sido eliminadas.', 'success');
+	        getTaskCount();
 	      });
 	    }, 250);
 	  });
+
+
+$('[data-task="deletefinalizado"]').on('click', function (e) {
+	  	console.log("ELIMINANDO");
+	    e.stopPropagation();
+	    var $this = $(this);
+	    setTimeout(function () {
+	      swal({
+	        title: '¿Desea eliminar las tareas?',
+	        text: "No puede revertir los cambios",
+	        type: 'warning',
+	        showCancelButton: true,
+	        confirmButtonColor: '#3085d6',
+	        cancelButtonColor: '#d33',
+	        confirmButtonText: 'Si, Eliminar!',
+	        cancelButtonText: "Cancelar",
+	      }).then(function () {
+	      	console.log("ELIMINANDO TODOS LOS REGISTROS");	      	
+	      	$('#finalizado #dataid').each(function () {
+	      		var getId = $(this).val();
+        	    console.log("nro "+getId);
+        	    eliminarreporte(getId);
+	      	});
+	      	
+	        $('#finalizado .card-task-item').remove();
+	        $('[data-task="add-task"]').removeAttr('disabled');
+	        swal('!Tareas Eliminadas!', 'Sus Tareas han sido eliminadas.', 'success');
+	        getTaskCount();
+	      });
+	    }, 250);
+	  });
+
+$('[data-task="deletearchivado"]').on('click', function (e) {
+	  	console.log("ELIMINANDO");
+	    e.stopPropagation();
+	    var $this = $(this);
+	    setTimeout(function () {
+	      swal({
+	        title: '¿Desea eliminar las tareas?',
+	        text: "No puede revertir los cambios",
+	        type: 'warning',
+	        showCancelButton: true,
+	        confirmButtonColor: '#3085d6',
+	        cancelButtonColor: '#d33',
+	        confirmButtonText: 'Si, Eliminar!',
+	        cancelButtonText: "Cancelar",
+	      }).then(function () {
+	      	console.log("ELIMINANDO TODOS LOS REGISTROS");	      	
+	      	$('#archivado #dataid').each(function () {
+	      		var getId = $(this).val();
+        	    console.log("nro "+getId);
+        	    eliminarreporte(getId);
+	      	});
+	      	
+	        $('#archivado .card-task-item').remove();
+	        $('[data-task="add-task"]').removeAttr('disabled');
+	        swal('!Tareas Eliminadas!', 'Sus Tareas han sido eliminadas.', 'success');
+	        getTaskCount();
+	      });
+	    }, 250);
+	  });
+
+
 	};
 	var cancelTask = function cancelTask() {
 	  $('[data-task="cancel"]').on('click', function () {

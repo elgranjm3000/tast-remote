@@ -35,7 +35,7 @@
                             </a>
                             <ul class="dropdown-menu btn-primary dropdown-menu-right">
                               <li>
-                                <a href="javascript:void(0)"><i class="zmdi zmdi-delete"></i> Remove List</a>
+                                <a href="#" data-task="delete"><i class="zmdi zmdi-delete" ></i> Eliminar Tareas</a>
                               </li>
                             </ul>
                           </li>
@@ -111,7 +111,7 @@
                             </a>
                             <ul class="dropdown-menu btn-primary dropdown-menu-right">
                               <li>
-                                <a href="javascript:void(0)"><i class="zmdi zmdi-delete"></i> Remove List</a>
+                                <a href="#" data-task="deletefinalizado"><i class="zmdi zmdi-delete"></i> Eliminar Tareas</a>
                               </li>
                             </ul>
                           </li>
@@ -184,7 +184,7 @@
                             </a>
                             <ul class="dropdown-menu btn-primary dropdown-menu-right">
                               <li>
-                                <a href="javascript:void(0)"><i class="zmdi zmdi-delete"></i> Remove List</a>
+                                <a href="#" data-task="deletearchivado"><i class="zmdi zmdi-delete"></i> Eliminar Tareas</a>
                               </li>
                             </ul>
                           </li>
@@ -650,7 +650,7 @@
                   </div>
                 </div>
               </div>
-            </footer>
+            </footer> 
           </section>
 <aside id="app_sidebar-right">
             <div class="sidebar-inner sidebar-overlay">
@@ -1258,6 +1258,28 @@ function creardatoimportantes(){
 var saludo = '{{ url('task',{'id':idtask}) }}';
 
 return saludo;
+
+}
+
+
+
+function eliminarreporte(id){
+
+
+$.ajax({      
+      
+      url:   '{{ url('deletereporte') }}',
+      type: "GET",
+      data: { id : id },    
+      beforeSend: function () {
+      },
+      success:  function (response) {
+        
+      }
+    });
+
+
+
 
 }
 

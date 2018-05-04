@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -58,7 +59,17 @@ $form->handleRequest($request);
          
          $entityManager->persist($task);
          $entityManager->flush();
-            return $this->redirect($this->generateUrl('taskboard', array()));
+
+
+        $generardatos = array();
+        $localidad['titulo'] =   $task->getTitulo();        
+        $localidad['descripcion'] =   $task->getDescripcion();
+        $localidad['id'] =   $task->getId();
+        $generardatos[] = $localidad;
+        return new JsonResponse($generardatos);
+
+
+            //return $this->redirect($this->generateUrl('taskboard', array()));
 
      //   return $this->redirectToRoute('task_success');
     }

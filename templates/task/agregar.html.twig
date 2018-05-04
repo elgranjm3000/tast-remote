@@ -1,0 +1,32 @@
+<div class="card card-task-item active" data-drawer="open-right-lg">
+                        <div  data-task-id="{{ entity.id }}" class="bg-white">
+
+                        <input type="hidden" value="{{ entity.id }}" id="dataid" >
+                          <header class="card-heading">
+                            <h2 class="card-title" data-task="title">{{ entity.titulo }}</h2>
+                          </header>
+                          <div class="card-body">
+                            <p>{{ entity.descripcion }}</p>
+                            <p data-task="notes">
+                              {{ entity.descripcion }}
+                            </p>
+                          </div>
+                          <div class="card-footer border-top">
+                            <ul class="card-actions icons left-bottom" data-task="metadata">
+                              <li class="">
+                                <i class="zmdi zmdi-comment"></i>
+                                <span>2</span>
+                              </li>
+                              <li class="">
+                                <i class="mdi mdi-note-text"></i>
+                                <span>1</span>
+                              </li>
+                            </ul>
+                            <ul class="card-actions right-bottom">
+                              <li class="">
+                                <span class="task-number">#{{ entity.id }}</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>

@@ -19,7 +19,20 @@ class TaskController extends Controller
 {
 
 
-              
+    /**
+     * @Route("/task/agregar/{id}", name="agregar")
+     */
+    public function agregar(Request $request,$id)
+    {
+      
+        $entityManager = $this->getDoctrine()->getManager();
+        $tareas = $entityManager->getRepository(Task::class)->find($id);
+       
+        return $this->render('task/agregar.html.twig', ['entity'=>$tareas
+        ]);
+
+    }
+          
 
 
 
@@ -170,7 +183,9 @@ $form->handleRequest($request);
          $task->setTaskboard($ip->getReference(Taskboard::class,$id));
          $entityManager->persist($task);
          $entityManager->flush();
-            return $this->redirect($this->generateUrl('task', array('id'=>$id)));
+//            return $this->redirect($this->generateUrl('task', array('id'=>$id)));
+
+  return $this->redirect($this->generateUrl('agregar', array('id'=>$task->getId())));
 
      //   return $this->redirectToRoute('task_success');
     }

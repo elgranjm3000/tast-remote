@@ -5222,14 +5222,38 @@
 	var addNewTask = function addNewTask() {
 	  $('[data-task="add-task"]').on('click', function () {
 	    var $this = $(this);
+	    console.log("hola");
 	    if ($('#addTaskForm').length > 0) {
 	      $this.attr('disabled', true);
 	    } else {
-	      $.get("assets/partials/task/_task-add.html", function (getMarkup) {
-	        $this.parents('.card-lane-wrapper').find('.card-lane').append(getMarkup).find('.form-control').focus();
-	        $this.attr('disabled', true);
-	        cancelTask();
-	        saveTask();
+         var valor = $('#myModal').find('#form_estado').val();
+
+         var link = creardatoimportantes();
+console.log(link);
+      	
+	   //$.post(link, function (getMarkup) {
+    $.ajax({
+              url:   link,
+              type: "POST",
+              data: $("#formtask").serialize(),
+              beforeSend: function () {
+              },
+              success:  function (getMarkup) {
+           			if(valor == "P"){
+	        			$('.card-lane-wrapper').find('.progreso').append(getMarkup);
+					}
+					if(valor == "F"){
+	        			$('.card-lane-wrapper').find('#finalizado').append(getMarkup);
+					}
+					if(valor == "A"){
+	        			$('.card-lane-wrapper').find('#archivado').append(getMarkup);
+					}
+ 				$('disabled', false);
+	       		loadTaskId();
+	        	(0, _drawers.toggleDrawer)();
+	          	getTaskCardInfo();
+	      		getTaskCount();
+              }
 	      });
 	    }
 	  });

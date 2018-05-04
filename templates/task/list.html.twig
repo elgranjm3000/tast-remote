@@ -44,7 +44,7 @@
                     </div>
           
 
-                    <div class="card-lane" id="progreso">          
+                    <div class="card-lane progreso" id="progreso">          
 {% for entity in tareas if entity.estado == 'P' %}                    
 
                       <div class="card card-task-item" data-drawer="open-right-lg">
@@ -83,9 +83,10 @@
                     </div>
 
 
-                    {# <div class="add-task text-center">
+                  {#   <div class="add-task text-center">
                       <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-task="add-task"><i class="zmdi zmdi-plus"></i></button>
-                    </div> #}
+                    </div> 
+                    #}
                   <div class="add-task text-center">
                       <button class="btn btn-default btn-fab animate-fab btn-fab-sm" data-whatever="P" data-toggle="modal" data-target="#myModal"><i class="zmdi zmdi-plus" ></i></button>
                     </div> 
@@ -978,7 +979,10 @@
       </div>
       <div class="modal-footer">
 <button type="button"  id="xcerrar" class="btn btn-sm btn-success btn-md pull-right" data-dismiss="modal"><i class="zmdi zmdi-minus"></i></button>
-<button type="submit" id="creardatos" data-dismiss="modal"  class="btn btn-sm btn-success btn-md pull-right"><i class="zmdi zmdi-plus"></i></button>
+
+      
+<button class="btn btn-sm btn-success btn-md pull-right" data-task="add-task" data-dismiss="modal"><i class="zmdi zmdi-plus"></i></button>
+                    
         
       </div>
 {{ form_end(form) }}
@@ -994,6 +998,7 @@
 {% block javascript %}
 <script>
 
+
 $( "form" ).on( "submit", function( event ) {
     event.preventDefault();
     
@@ -1001,7 +1006,8 @@ $( "form" ).on( "submit", function( event ) {
 
 
  $("#creardatos").click(function () {  
-        
+
+
         $.ajax({
               url:   '{{ url('task',{'id':idtask}) }}',
               type: "POST",
@@ -1017,7 +1023,15 @@ $( "form" ).on( "submit", function( event ) {
                //$(document.body).scrollspy('refresh')
               //  $("#progreso").load(" #progreso");
           var valor = $('#myModal').find('#form_estado').val();
-          progreso(valor,{{idtask}});
+          if (valor == "A"){
+$("#progreso").append('<div class="card card-task-item" data-drawer="open-right-lg"><div  data-task-id="14" class="bg-white"><input type="hidden" value="14" id="dataid" ><header class="card-heading"><h2 class="card-title" data-task="title">titulo</h2></header><div class="card-body"><p>descripcion</p><p data-task="notes">descripcion</p></div><div class="card-footer border-top"><ul class="card-actions icons left-bottom" data-task="metadata"><li class=""><i class="zmdi zmdi-comment"></i><span>2</span></li><li class=""><i class="mdi mdi-note-text"></i><span>1</span></li></ul><ul class="card-actions right-bottom"><li class=""><span class="task-number">#14</span></li></ul></div></div></div>');
+
+
+
+          (0, _drawers.toggleDrawer)();
+          
+          }
+          //progreso(valor,{{idtask}});
 
               }
             });
@@ -1239,6 +1253,13 @@ timeresto.addEventListener('reset', function (e) {
 });
 
 
+function creardatoimportantes(){
+
+var saludo = '{{ url('task',{'id':idtask}) }}';
+
+return saludo;
+
+}
 
   </script>
 {% endblock %}

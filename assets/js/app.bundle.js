@@ -5180,17 +5180,23 @@
 	    });
 	  });
 	  $(document).on('click', '.editable-submit', function (e) {
+	  	  console.log("editar datos");
 	    var $this = $(this),
 	        updateTitle = $this.parents('form').find('input.form-control').val(),
-	        updateNotes = $this.parents('form').find('textarea.form-control').val(),
+	        updateNotes = $this.parents('form').find('textarea.form-control').val(),	        
 	        activeId = $('#task-info-wrapper').find('[data-active-id]').data('activeId');
+			console.log(updateTitle);
+			console.log("NOTA: "+updateNotes);
+			modificartask(updateTitle, updateNotes,activeId);				        
 	    $('.card-task-item [data-task-id="' + activeId + '"]').find('.card-title').text(updateTitle);
 	    $('.card-task-item [data-task-id="' + activeId + '"]').find('[data-task="notes"]').text(updateNotes);
+	    $('.card-task-item [data-task-id="' + activeId + '"]').find('#descripcion').text(updateNotes);
 	  });
 	};
 	var editInPlace = function editInPlace() {
 	  $.fn.editable.defaults.mode = 'inline';
 	  $('#editTaskTitle,#editTaskNotes').editable();
+	  console.log("editar");
 	  $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit">' + '<i class="mdi mdi-check"></i>' + '</button>' + '<button type="button" class="btn btn-default btn-fab btn-fab-xs m-5 editable-cancel">' + '<i class="mdi mdi-close"></i>' + '</button>';
 	};
 	var uniqId = function uniqId() {
@@ -5262,6 +5268,13 @@ console.log(link);
   $('[data-task="task-delete"]').on('click', function (e) {
 	    console.log("LISTADO GENERAL");
   });
+
+
+  $('[data-task="add-file"]').on('click', function (e) {
+	    console.log("agregar archivo");
+  });
+
+  
 
 
 	};

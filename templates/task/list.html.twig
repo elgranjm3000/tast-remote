@@ -55,7 +55,7 @@
                             <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
                           </header>
                           <div class="card-body">
-                            <p>{{ entity.descripcion }}</p>
+                            <p id="descripcion">{{ entity.descripcion }}</p>
                             <p data-task="notes">
                               {{ entity.descripcion }}
                             </p>
@@ -135,7 +135,7 @@
                             <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
                           </header>
                           <div class="card-body">
-                            <p>{{ entity.descripcion }}</p>
+                            <p id="descripcion">{{ entity.descripcion }}</p>
                             <p data-task="notes">
                               {{ entity.descripcion }}
                             </p>
@@ -207,7 +207,7 @@
                             <h2 class="card-title" data-task="title">{{ entity.titulo }}</h2>
                           </header>
                           <div class="card-body">
-                            <p>{{ entity.descripcion }}</p>
+                            <p id="descripcion">{{ entity.descripcion }}</p>
                             <p data-task="notes">
                               {{ entity.descripcion }}
                             </p>
@@ -330,7 +330,8 @@
                       </div>
                     </div>
                   </div>
-                 <div class="card">
+                 
+                 {#<div class="card">
                     <header class="card-heading border-bottom">
                       <h2 class="card-title">Comentarios</h2>
                     </header>
@@ -339,7 +340,8 @@
               Caja de Comentarios no hacer nada
             </p>
                     </div>
-                  </div>
+                  </div>#}
+
                   <div class="card">
                     <header class="card-heading border-bottom">
                       <h2 class="card-title">Adjuntos</h2>
@@ -374,9 +376,10 @@
                           <div class="input-group">
                             <input type="file" class="form-control" placeholder="File Upload...">
                             <div class="input-group">
-                              <input type="text" readonly="" class="form-control" placeholder="Attach a file...">
+                              <input  type="text" readonly="" class="form-control" placeholder="Attach a file...">
                               <span class="input-group-btn input-group-sm">
-                                <button type="button" class="btn btn-info btn-fab btn-fab-sm">
+                                <button type="button" class="btn btn-info btn-fab btn-fab-sm" data-task="add-file">
+                                
                                   <i class="zmdi zmdi-attachment-alt"></i>
                                 </button>
                               </span>
@@ -1278,8 +1281,22 @@ $.ajax({
       }
     });
 
+}
+
+function modificartask(descripcion = null, nota = null,id){
 
 
+$.ajax({      
+      
+      url:   '{{ url('modificartask') }}',
+      type: "GET",
+      data: { descripcion : descripcion, nota : nota, id : id },    
+      beforeSend: function () {
+      },
+      success:  function (response) {
+        
+      }
+    });
 
 }
 

@@ -21,7 +21,30 @@ class TaskController extends Controller
 
 
 
+    /**
+     * @Route("/modificartask", name="modificartask")
+     */
+    public function modificartask(Request $request)
+    {
 
+       $descripcion = $_GET['descripcion'];
+       $nota = $_GET['nota'];
+       $id = $_GET['id'];
+      
+        $entityManager = $this->getDoctrine()->getManager();
+        $tareas = $entityManager->getRepository(Task::class)->find($id);
+        
+        if($descripcion){
+            $tareas->setTitulo($descripcion);
+        }
+      if($nota){
+        $tareas->setDescripcion($nota);
+      }
+
+        $entityManager->flush();
+        
+        exit;
+    }
 
 
     /**

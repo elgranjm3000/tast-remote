@@ -371,14 +371,16 @@
                       </div>
                     </div>
                     <div class="card-footer">
-                      <form action="#" class="upload-form" enctype="multipart/form-data">
+                      <form action="#" class="upload-form" enctype="multipart/form-data" name="adjuntos" id ="taskarchivo">
                         <div class="form-group is-empty is-fileinput">
                           <div class="input-group">
-                            <input type="file" class="form-control" placeholder="File Upload...">
+
+                            <input type="hidden" class="form-control" name="idtask" id="idtask">
+                            <input type="file" class="form-control" placeholder="File Upload..." data-task="add-file" name="archivo">
                             <div class="input-group">
-                              <input  type="text" readonly="" class="form-control" placeholder="Attach a file...">
+                              <input type="text" readonly="" class="form-control" placeholder="Attach a file...">
                               <span class="input-group-btn input-group-sm">
-                                <button type="button" class="btn btn-info btn-fab btn-fab-sm" data-task="add-file">
+                                <button type="button" class="btn btn-info btn-fab btn-fab-sm" >
                                 
                                   <i class="zmdi zmdi-attachment-alt"></i>
                                 </button>
@@ -1298,6 +1300,52 @@ $.ajax({
       }
     });
 
+}
+
+
+
+
+function filestask(id){
+        var formData = new FormData($("#taskarchivo")[0]);
+
+
+$.ajax({      
+      
+      url:   '{{ url('filestask') }}',
+      type: "POST",
+      data: formData,
+       //necesario para subir archivos via ajax
+      cache: false,
+      contentType: false,
+      processData: false,    
+      beforeSend: function () {
+      },
+      success:  function (response) {
+          
+        $('#card_attchments .list-group').append(response);
+      }
+    });
+
+}
+
+
+function listadoarchivo(id){
+         $('#card_attchments .list-group').empty();
+
+$.ajax({      
+      
+      url:   '{{ url('listadoarchivo') }}',
+      type: "GET",
+      data: {id : id},
+      
+      beforeSend: function () {
+         $('#card_attchments .list-group').empty();
+      },
+      success:  function (response) {
+          
+        $('#card_attchments .list-group').append(response);
+      }
+    });
 }
 
   </script>

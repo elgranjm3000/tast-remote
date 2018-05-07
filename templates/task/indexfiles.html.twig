@@ -1,0 +1,10 @@
+{% for files in entity %}        
+
+ <li class="list-group-item ">
+  <span class="pull-left m-r-10"><i class="zmdi zmdi-image circle-xs mw-red"></i></span>
+      <div class="list-group-item-body">
+       <div class="list-group-item-text m-t-5"><a href="{{ asset ('uploads/') }}{{files.name}}" target="_blank">{{ files.name }}</a></div>
+     </div>
+</li>
+
+{% endfor %}

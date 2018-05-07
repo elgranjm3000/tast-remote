@@ -9,6 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Files
 {
+
+
+      // ... 
+    /**
+     * @ORM\ManyToOne(targetEntity="Task", inversedBy="files")
+     * @ORM\JoinColumn(name="idtask", referencedColumnName="id")
+     */
+    protected $task;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -103,6 +111,18 @@ class Files
     public function setIdtask(int $idtask): self
     {
         $this->idtask = $idtask;
+
+        return $this;
+    }
+
+    public function getTask(): ?Task
+    {
+        return $this->task;
+    }
+
+    public function setTask(?Task $task): self
+    {
+        $this->task = $task;
 
         return $this;
     }

@@ -5162,11 +5162,15 @@
 	    $('#task-info-wrapper [data-active-id]').data('activeId', taskCard.taskCardId);
 	    $('#task-info-wrapper .card-heading .card-number').text('#' + taskCard.taskCardId);
 	    $('#task-info-wrapper .card-heading .reporte').text(taskCard.taskCardId);
+
+	    $('#idtask').val(taskCard.taskCardId);
 	    $('#task-info-wrapper .card-heading #taskListTitle').text(taskCard.taskListTitle);
 	    $('#task-info-wrapper .card [data-task-color]').addClass(taskCard.taskCardColor);
 	    $('#task-info-wrapper .card-body #editTaskTitle').text(taskCard.taskCardTitle);
 	    $('#task-info-wrapper .card-body #editTaskNotes').text(taskCard.taskCardNotes);
 	    $('#task-info-wrapper .card-body .user-group').prepend(taskCard.taskCardUsers);
+	    console.log("REPORTE PARA EL LISTADO "+$('#idtask').val());
+	    listadoarchivo($('#idtask').val());
 	    editInPlace();
 	    $('#task-info-wrapper .card-active .user-group > li.list-group-item').each(function () {
 	      var $this = $(this),
@@ -5196,7 +5200,7 @@
 	var editInPlace = function editInPlace() {
 	  $.fn.editable.defaults.mode = 'inline';
 	  $('#editTaskTitle,#editTaskNotes').editable();
-	  console.log("editar");
+	  console.log("editar toos");
 	  $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit">' + '<i class="mdi mdi-check"></i>' + '</button>' + '<button type="button" class="btn btn-default btn-fab btn-fab-xs m-5 editable-cancel">' + '<i class="mdi mdi-close"></i>' + '</button>';
 	};
 	var uniqId = function uniqId() {
@@ -5270,8 +5274,10 @@ console.log(link);
   });
 
 
-  $('[data-task="add-file"]').on('click', function (e) {
+  $('[data-task="add-file"]').on('keyup change', function (e) {
 	    console.log("agregar archivo");
+	   	var activeId = $('#task-info-wrapper').find('[data-active-id]').data('activeId');
+	   	filestask(activeId);
   });
 
   

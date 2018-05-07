@@ -19,7 +19,7 @@ class Taskboard
 // ...
  
     /**
-     * @ORM\OneToMany(targetEntity="Task", mappedBy="taskboard")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="taskboard", cascade={"remove","persist"}, orphanRemoval=true)
      */
     protected $task;
  

@@ -2,13 +2,28 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  */
 class Task
 {
+
+// ...
+ 
+    /**
+     * @ORM\OneToMany(targetEntity="Files", mappedBy="task", cascade={"remove","persist"}, orphanRemoval=true)
+     */
+    protected $files;
+ 
+    public function __construct()
+    {
+        $this->files = new ArrayCollection();
+    }
+
 
     // ... 
     /**
@@ -220,6 +235,37 @@ class Task
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Files[]
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(Files $file): self
+    {
+        if (!$this->files->contains($file)) {
+            $this->files[] = $file;
+            $file->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(Files $file): self
+    {
+        if ($this->files->contains($file)) {
+            $this->files->removeElement($file);
+            // set the owning side to null (unless already changed)
+            if ($file->getTask() === $this) {
+                $file->setTask(null);
+            }
+        }
 
         return $this;
     }

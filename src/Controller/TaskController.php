@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Task;
+use App\Entity\Files;
 use App\Entity\Taskboard;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +18,86 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TaskController extends Controller
 {
+
+
+
+
+
+/**
+     * @Route("/files", name="listadoarchivo")
+     */
+public function filesindex(Request $request)
+{
+
+
+       $entityManager = $this->getDoctrine()->getManager();
+$files = $entityManager->getRepository(Files::class)->findBy(['idtask' => $_GET['id']]);
+       
+        return $this->render('task/indexfiles.html.twig', ['entity'=>$files
+        ]);
+
+}
+
+/**
+     * @Route("/listarchivo/{id}", name="listarchivo")
+     */
+public function fileslist(Request $request,$id)
+{
+
+
+       $entityManager = $this->getDoctrine()->getManager();
+        $files = $entityManager->getRepository(Files::class)->find($id);
+       
+        return $this->render('task/files.html.twig', ['entity'=>$files
+        ]);
+
+}
+
+  /**
+     * @Route("/filestask", name="filestask")
+     */
+public function filestask(Request $request)
+    {
+
+if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
+{
+ $uploads_dir = 'uploads';
+
+    //obtenemos el archivo a subir
+    $file = $_FILES['archivo']['tmp_name'];
+    $name = $_FILES['archivo']['name'];
+    $size = $_FILES['archivo']['size'];
+    $type = $_FILES['archivo']['type'];
+
+        $namemove = basename($name);
+
+
+  move_uploaded_file($file, "$uploads_dir/$namemove");
+
+
+        $ip=$this->getDoctrine()->getEntityManager();  
+
+        $archivos = new Files();
+        $archivos->setFiles($file);
+        $archivos->setName($name);
+        $archivos->setExt($type);
+        $archivos->setSize($size);
+        $archivos->setTask($ip->getReference(Task::class,$_POST['idtask']));
+        $entityManager = $this->getDoctrine()->getManager();        
+        $entityManager->persist($archivos);
+        $entityManager->flush();
+
+  return $this->redirect($this->generateUrl('listarchivo', array('id'=>$archivos->getId())));
+ 
+ 
+}else{
+    throw new Exception("Error Processing Request", 1);   
+}
+
+
+exit;
+
+    }
 
 
 
@@ -193,8 +274,7 @@ class TaskController extends Controller
 
 
 
-
-    	$task = new Task();
+    	  $task = new Task();
         $task->setTitulo('');
         $task->setDescripcion('');
         $task->setEstado('');
@@ -234,8 +314,12 @@ $form->handleRequest($request);
 
      //   return $this->redirectToRoute('task_success');
     }
+
+
+
+
         return $this->render('task/list.html.twig', [
-            'controller_name' => 'TaskController', 'form' => $form->createView(),'tareas'=>$tareas,'idtask' => $id
+            'controller_name' => 'TaskController', 'form' => $form->createView() ,'tareas'=>$tareas,'idtask' => $id
         ]);
     }
 }

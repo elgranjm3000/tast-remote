@@ -286,9 +286,9 @@ exit;
             ->add('titulo', TextType::class)
             ->add('estado', TextType::class)
             ->add('descripcion', TextType::class)
-            ->add('fechacreacion', DateTimeType::class, array('widget' => 'single_text'))
-            ->add('fechacomienzo', DateTimeType::class, array('widget' => 'single_text'))
-            ->add('fechafin', DateTimeType::class, array('widget' => 'single_text'))
+            ->add('fechacreacion', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
+            ->add('fechacomienzo', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
+            ->add('fechafin', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
             ->add('estado', HiddenType::class)
             ->getForm();
 

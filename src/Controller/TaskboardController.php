@@ -39,9 +39,9 @@ $task = new Taskboard();
         $form = $this->createFormBuilder($task)
             ->add('titulo', TextType::class)
             ->add('descripcion', TextType::class)
-            ->add('fechacreacion', DateTimeType::class, array('widget' => 'single_text'))
-            ->add('fechacomienzo', DateTimeType::class, array('widget' => 'single_text'))
-            ->add('fechafin', DateTimeType::class, array('widget' => 'single_text'))
+            ->add('fechacreacion', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
+            ->add('fechacomienzo', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
+            ->add('fechafin', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
             ->getForm();
 
 $form->handleRequest($request);

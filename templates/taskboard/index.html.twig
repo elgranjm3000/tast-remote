@@ -27,9 +27,17 @@
 
                                      
                                         <div class="col-lg-4">
+
                                           <div class="card">
                                             <header class="card-heading card-default">
                                               <h2 class="card-title">{{ entity.titulo }}</h2>
+                                         {#} <a href="#" data-task="deletetaskboard"><i class="zmdi zmdi-delete" ></i> 
+                                Eliminar Taskboard
+                                </a>
+                                <input type="text" name="initiatess" value="{{entity.id}}" class="myvalor">#}
+
+
+
                                             </header>
                                             <div class="card-body">
                                               <p>{{ entity.descripcion }}</p>

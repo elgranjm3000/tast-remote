@@ -37,6 +37,7 @@
                               <li>
                                 <a href="#" data-task="delete"><i class="zmdi zmdi-delete" ></i> Eliminar Tareas</a>
                               </li>
+
                             </ul>
                           </li>
                         </ul>
@@ -331,16 +332,14 @@
                     </div>
                   </div>
                  
-                 {#<div class="card">
+                 <div class="card usuariosadd">
                     <header class="card-heading border-bottom">
-                      <h2 class="card-title">Comentarios</h2>
+                      <h2 class="card-title">Usuarios Asignado</h2>
                     </header>
                     <div class="card-body">
-                      <p>
-              Caja de Comentarios no hacer nada
-            </p>
+                        
                     </div>
-                  </div>#}
+                  </div>
 
                   <div class="card">
                     <header class="card-heading border-bottom">
@@ -980,6 +979,8 @@
 {{ form_row(form.fechafin,{'label':'Fecha Fin','attr': {'class': 'form-control','placeholder':'Fecha de Creacion', 'title': 'Fecha Fin'} } ) }}  
     
 
+
+{{ form_row(form.usuarios,{'label':'Fecha Fin','attr': {'class': 'form-control','placeholder':'Fecha de Creacion', 'title': 'Seleccione Usuarios'} } ) }}  
   
       </div>
       <div class="modal-footer">
@@ -1305,6 +1306,8 @@ $.ajax({
 
 
 
+
+
 function filestask(id){
         var formData = new FormData($("#taskarchivo")[0]);
 
@@ -1347,6 +1350,28 @@ $.ajax({
       }
     });
 }
+
+
+function usuarios(id){
+         $('.usuariosadd .card-body').empty();
+
+$.ajax({      
+      
+      url:   '{{ url('usuarioslistado') }}',
+      type: "GET",
+      data: {id : id},
+      
+      beforeSend: function () {
+         $('.usuariosadd .card-body').empty();
+      },
+      success:  function (response) {
+          
+        $('.usuariosadd .card-body').append(response);
+      }
+    });
+}
+
+
 
   </script>
 {% endblock %}

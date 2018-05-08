@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-05-2018 a las 13:23:47
+-- Tiempo de generación: 08-05-2018 a las 20:03:43
 -- Versión del servidor: 5.7.22-0ubuntu0.16.04.1
 -- Versión de PHP: 7.1.15-1+ubuntu16.04.1+deb.sury.org+2
 
@@ -53,7 +53,9 @@ INSERT INTO `migration_versions` (`version`) VALUES
 ('20180425033601'),
 ('20180430234206'),
 ('20180430235154'),
-('20180503082652');
+('20180503082652'),
+('20180507200928'),
+('20180508211033');
 
 -- --------------------------------------------------------
 
@@ -75,23 +77,6 @@ CREATE TABLE `task` (
   `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `task`
---
-
-INSERT INTO `task` (`id`, `titulo`, `descripcion`, `estado`, `fechacreacion`, `fechacomienzo`, `fechafin`, `tiempo`, `iduser`, `idtaskboad`, `status`) VALUES
-(1, 'Tarea Nueva', 'nueva', 'P', '2018-04-07 09:10:00', '2018-04-18 10:00:00', '2018-04-21 01:00:00', '0', 1, 1, NULL),
-(2, 'Tarea Nueva', 'nueva', 'A', '2018-04-07 09:10:00', '2018-04-18 10:00:00', '2018-04-21 01:00:00', '0', 1, 1, NULL),
-(3, 'TITULO TASK', 'DESCRIPCION DE TASK', 'A', '2018-04-04 10:00:00', '2018-04-11 11:00:00', '2018-04-28 11:00:00', '0', 1, 1, NULL),
-(4, 'TITULO TASK', 'DESCRIPCION DE TASK', 'F', '2008-02-01 11:00:00', '2008-02-01 01:20:00', '2004-04-01 01:00:00', '104446', 1, 2, NULL),
-(5, 'TITULO TASK', 'DESCRIPCION DE TASK', 'P', '2008-02-01 11:00:00', '2008-02-01 01:20:00', '2004-04-01 01:00:00', '1648', 1, 2, 'P'),
-(6, 'TITULO TASK', 'DESCRIPCION DE TASK', 'F', '2008-02-01 11:00:00', '2008-02-01 01:20:00', '2004-04-01 01:00:00', '2018-05-03 05:22:35', 1, 2, NULL),
-(7, 'TITULO TASK', 'DESCRIPCION DE TASK', 'A', '2008-02-01 11:00:00', '2008-02-01 01:20:00', '2004-04-01 01:00:00', '15296', 1, 2, 'P'),
-(8, 'asdad', 'asdasd', 'F', '2008-04-04 01:04:00', '2008-04-01 01:00:00', '2008-04-04 01:01:00', '0', 1, 1, NULL),
-(9, 'asdad', 'asdasd', 'P', '2008-04-04 01:04:00', '2008-04-01 01:00:00', '2008-04-04 01:01:00', '0', 1, 1, NULL),
-(10, 'asdad', 'asdasd', 'P', '2008-04-04 01:04:00', '2008-04-01 01:00:00', '2008-04-04 01:01:00', '0', 1, 1, NULL),
-(11, 'fsdfsf', 'gfdg', 'F', '2008-02-01 11:01:00', '2004-02-01 11:00:00', '2004-04-04 11:00:00', '60536785502', 1, 2, 'P');
-
 -- --------------------------------------------------------
 
 --
@@ -108,13 +93,37 @@ CREATE TABLE `taskboard` (
   `userid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `taskboard`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
-INSERT INTO `taskboard` (`id`, `titulo`, `descripcion`, `fechacreacion`, `fechacomienzo`, `fechafin`, `userid`) VALUES
-(1, 'TITULO', 'DESCRIPCION', '2000-02-01 11:00:00', '2008-02-01 01:00:00', '2002-02-01 01:00:00', 1),
-(2, 'Tarea NUeva', 'Descripcion Tarea Nuva', '2008-02-01 11:00:00', '2008-01-01 11:00:00', '2004-04-01 01:00:00', 1);
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `apellido` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `usuario` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `usuario`) VALUES
+(1, 'Joseph', 'Muentes', 'elgranjm'),
+(2, 'Eber', 'Blanco', 'eberj');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios_task`
+--
+
+CREATE TABLE `usuarios_task` (
+  `task_id` int(11) NOT NULL,
+  `usuarios_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Índices para tablas volcadas
@@ -124,7 +133,8 @@ INSERT INTO `taskboard` (`id`, `titulo`, `descripcion`, `fechacreacion`, `fechac
 -- Indices de la tabla `files`
 --
 ALTER TABLE `files`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_635405981B12A85` (`idtask`);
 
 --
 -- Indices de la tabla `migration_versions`
@@ -146,6 +156,20 @@ ALTER TABLE `taskboard`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuarios_task`
+--
+ALTER TABLE `usuarios_task`
+  ADD PRIMARY KEY (`task_id`,`usuarios_id`),
+  ADD KEY `IDX_62EB046D8DB60186` (`task_id`),
+  ADD KEY `IDX_62EB046DF01D3B25` (`usuarios_id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -153,26 +177,44 @@ ALTER TABLE `taskboard`
 -- AUTO_INCREMENT de la tabla `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT de la tabla `taskboard`
 --
 ALTER TABLE `taskboard`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Restricciones para tablas volcadas
 --
 
 --
+-- Filtros para la tabla `files`
+--
+ALTER TABLE `files`
+  ADD CONSTRAINT `FK_635405981B12A85` FOREIGN KEY (`idtask`) REFERENCES `task` (`id`);
+
+--
 -- Filtros para la tabla `task`
 --
 ALTER TABLE `task`
   ADD CONSTRAINT `FK_527EDB254DE53A5E` FOREIGN KEY (`idtaskboad`) REFERENCES `taskboard` (`id`);
+
+--
+-- Filtros para la tabla `usuarios_task`
+--
+ALTER TABLE `usuarios_task`
+  ADD CONSTRAINT `FK_62EB046D8DB60186` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_62EB046DF01D3B25` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

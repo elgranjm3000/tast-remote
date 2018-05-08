@@ -5170,7 +5170,8 @@
 	    $('#task-info-wrapper .card-body #editTaskNotes').text(taskCard.taskCardNotes);
 	    $('#task-info-wrapper .card-body .user-group').prepend(taskCard.taskCardUsers);
 	    console.log("REPORTE PARA EL LISTADO "+$('#idtask').val());
-	    listadoarchivo($('#idtask').val());
+	    listadoarchivo($('#idtask').val());	    
+	    usuarios($('#idtask').val());
 	    editInPlace();
 	    $('#task-info-wrapper .card-active .user-group > li.list-group-item').each(function () {
 	      var $this = $(this),
@@ -5191,7 +5192,8 @@
 	        activeId = $('#task-info-wrapper').find('[data-active-id]').data('activeId');
 			console.log(updateTitle);
 			console.log("NOTA: "+updateNotes);
-			modificartask(updateTitle, updateNotes,activeId);				        
+			modificartask(updateTitle, updateNotes,activeId);
+
 	    $('.card-task-item [data-task-id="' + activeId + '"]').find('.card-title').text(updateTitle);
 	    $('.card-task-item [data-task-id="' + activeId + '"]').find('[data-task="notes"]').text(updateNotes);
 	    $('.card-task-item [data-task-id="' + activeId + '"]').find('#descripcion').text(updateNotes);
@@ -5383,6 +5385,36 @@ console.log(link);
 	        $('[data-task="add-task"]').removeAttr('disabled');
 	        swal('!Tareas Eliminadas!', 'Sus Tareas han sido eliminadas.', 'success');
 	        getTaskCount();
+	      });
+	    }, 250);
+	  });
+
+
+	  $('[data-task="deletetaskboard"]').on('click', function (e) {
+	  	console.log("ELIMINANDO");
+	    e.stopPropagation();
+	    var $this = $(this);
+	    setTimeout(function () {
+	      swal({
+	        title: '¿Desea eliminar las tareas?',
+	        text: "No puede revertir los cambios",
+	        type: 'warning',
+	        showCancelButton: true,
+	        confirmButtonColor: '#3085d6',
+	        cancelButtonColor: '#d33',
+	        confirmButtonText: 'Si, Eliminar!',
+	        cancelButtonText: "Cancelar",
+	      }).then(function () {
+	        $this.parents('.myvalor').remove();
+
+
+	      	$('.valorid').each(function () {
+	      			console.log($(this).val())
+	      	});
+///	      	console.log("ELIMINANO REGISTRO PRINCIPAL "+idvalor);
+	        swal('!Tareas Eliminadas!', 'Sus Tareas han sido eliminadas.', 'success');
+	        return false;
+	        
 	      });
 	    }, 250);
 	  });

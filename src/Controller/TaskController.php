@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Task;
 use App\Entity\Files;
 use App\Entity\Taskboard;
+use App\Entity\Usuarios;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -14,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
 class TaskController extends Controller
@@ -281,6 +283,7 @@ exit;
         $task->setFechacreacion(new \DateTime('tomorrow'));
         $task->setFechacomienzo(new \DateTime('tomorrow'));
         $task->setFechafin(new \DateTime('tomorrow'));        
+        
 
         $form = $this->createFormBuilder($task)
             ->add('titulo', TextType::class)
@@ -290,6 +293,11 @@ exit;
             ->add('fechacomienzo', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
             ->add('fechafin', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
             ->add('estado', HiddenType::class)
+            ->add('usuarios', EntityType::class, array(
+    'class' => Usuarios::class,
+     'multiple' => true,
+        'choice_label' => 'usuario',
+))
             ->getForm();
 
 $form->handleRequest($request);

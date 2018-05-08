@@ -34,7 +34,8 @@ $task = new Taskboard();
         $task->setDescripcion('');
         $task->setFechacreacion(new \DateTime('tomorrow'));
         $task->setFechacomienzo(new \DateTime('tomorrow'));
-        $task->setFechafin(new \DateTime('tomorrow'));        
+        $task->setFechafin(new \DateTime('tomorrow'));  
+               
 
         $form = $this->createFormBuilder($task)
             ->add('titulo', TextType::class)

@@ -12,6 +12,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Task
 {
 
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Usuarios", inversedBy="task", cascade={"persist"})
+     * @ORM\JoinTable(name="usuarios_task")
+     **/
+    private $usuarios;
+
+
+
+
 // ...
  
     /**
@@ -22,6 +33,8 @@ class Task
     public function __construct()
     {
         $this->files = new ArrayCollection();
+        $this->usuarios = new ArrayCollection();
+
     }
 
 
@@ -239,6 +252,9 @@ class Task
         return $this;
     }
 
+
+    
+
     /**
      * @return Collection|Files[]
      */
@@ -265,6 +281,36 @@ class Task
             if ($file->getTask() === $this) {
                 $file->setTask(null);
             }
+        }
+
+        return $this;
+    }
+
+
+
+
+
+    /**
+     * @return Collection|Usuarios[]
+     */
+    public function getUsuarios(): Collection
+    {
+        return $this->usuarios;
+    }
+
+    public function addUsuario(Usuarios $usuario): self
+    {
+        if (!$this->usuarios->contains($usuario)) {
+            $this->usuarios[] = $usuario;
+        }
+
+        return $this;
+    }
+
+    public function removeUsuario(Usuarios $usuario): self
+    {
+        if ($this->usuarios->contains($usuario)) {
+            $this->usuarios->removeElement($usuario);
         }
 
         return $this;

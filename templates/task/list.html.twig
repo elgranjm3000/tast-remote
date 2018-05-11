@@ -336,10 +336,14 @@
 
                         <label class="control-label"><i class="mdi mdi-note-text"></i> Descripcion</label>
 
-                         <textarea class="guardardescripcion" id="editTaskNotes"></textarea>
-                        {#<a href="javascript:void(0)" id="editTaskNotes" data-type="textarea" class="descripcionota" data-placeholder="Descripcion" data-title="Enter notes"></a>#}
+                        {# <textarea class="guardardescripcion" id="editTaskNotes"></textarea>#}
+                        <a href="javascript:void(0)" id="editTaskNotes" data-type="textarea" class="descripcionota" data-placeholder="Descripcion" data-title="Enter notes"></a>
 
-                        <button type="button" title="Guardar Descripcion" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit"><i class="mdi mdi-check"></i></button>
+                        {#<button type="button" title="Guardar Descripcion" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit"><i class="mdi mdi-check"></i></button>#}
+
+                        <button id="edit" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit editarnotes" type="button"><i class="mdi mdi-check"></i></button>
+{#<button id="save" class="btn btn-primary" onclick="save()" type="button">Save 2</button>#}
+
                       </div>
                     </div>
                   </div>
@@ -1144,8 +1148,8 @@ function buscartareas(idtask){
                       var descripcion = data[0]['descripcion'];  
                       console.log("descripcion nueva"+descripcion);
       
-      $('#task-info-wrapper .card-body #editTaskNotes').html(descripcion);
-      $('.guardardescripcion').summernote();
+      //$('#task-info-wrapper .card-body #editTaskNotes').html(descripcion);
+      //$('.guardardescripcion').summernote();
 
                       var segundos = data[0]['tiempo'];
 
@@ -1431,5 +1435,12 @@ $.ajax({
 
     });
 
+
+
+
+
   </script>
+
+
+
 {% endblock %}

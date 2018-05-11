@@ -6,10 +6,12 @@
                             <h2 class="card-title" data-task="title">{{ entity.titulo }}</h2>
                           </header>
                           <div class="card-body">
-                            <p>{{ entity.descripcion }}</p>
+                            <p>{{ entity.descripcion|raw }}</p>
                             <p data-task="notes">
-                              {{ entity.descripcion }}
+                              {{ entity.descripcion|striptags }}
                             </p>
+ <p><b>Fecha de Creación: </b>{{ entity.fechacreacion|date('d-m-Y') }}</p>
+                            
                           </div>
                           <div class="card-footer border-top">
                             <ul class="card-actions icons left-bottom" data-task="metadata">

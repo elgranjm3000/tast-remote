@@ -1,0 +1,69 @@
+<span id="idrecipiente" style="display:none">{{ tareas.id }}</span>
+
+{{ form_start(form_edit , { 'attr': {'role': 'form','novalidate':'novalidate', 'class':'form-horizontal','id':'formtaskedit'} }) }}
+   
+
+   {{ form_row(form_edit.titulo,{'label':'Titulo Task','attr': {'class': 'form-control','placeholder':'Titulo Task', 'title': 'Mencione titulo del Task'} } ) }}  
+
+   {{ form_row(form_edit.descripcion|raw,{'label':'Descripcion de Task','attr': {'class': 'form-control editardescripcion','placeholder':'Descripcion de Task', 'title': 'Mencione descripcion del Task'} } ) }}  
+
+
+   {{ form_row(form_edit.fechacreacion,{'label':'Fecha de Creacion','attr': {'class': 'form-control js-datepicker','placeholder':'Fecha de Creacion', 'title': 'Fecha de Creacion'} } ) }}  
+
+
+  {{ form_row(form_edit.fechacomienzo,{'label':'Fecha de Comienzo','attr': {'class': 'form-control','placeholder':'Fecha de Creacion', 'title': 'Fecha de Comienzo'} } ) }}  
+      
+    
+
+{{ form_row(form_edit.fechafin,{'label':'Fecha Fin','attr': {'class': 'form-control','placeholder':'Fecha de Creacion', 'title': 'Fecha Fin'} } ) }}  
+
+<button type="button" id="editartaskboard"class="btn btn-sm btn-success btn-md pull-right" data-dismiss="modal">Actualizar</button>
+
+<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+
+
+{{ form_end(form_edit) }}
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+  $(document).ready(function() {
+        $('.editardescripcion').summernote();
+    });
+
+$( "form_edit" ).on( "#editartaskboard", function( event ) {
+    event.preventDefault();
+    
+    });
+
+ $("#editartaskboard").click(function () {  
+
+ 	var valor = $('#idrecipiente').text();
+	
+
+     $.ajax({
+              url:   'taskboard/edit/'+valor,
+              type: "POST",
+              data: $("#formtaskedit").serialize(),
+              beforeSend: function () {
+              },
+              success:  function (response) {
+  					   location.reload();
+
+              }
+            });
+
+ //window.location.reload(true);
+      });
+
+//CKEDITOR.replace( 'form_descripcion' );
+</script>

@@ -59,7 +59,8 @@ class Task
     private $titulo;
 
     /**
-     * @ORM\Column(type="string", length=120)
+      * @ORM\Column(name="descripcion", type="text", nullable=false,
+ *      options={"comment" = "Data of notification."})
      */
     private $descripcion;
 
@@ -120,17 +121,7 @@ class Task
         //return $this;
     }
 
-    public function getDescripcion(): ?string
-    {
-        return $this->descripcion;
-    }
-
-    public function setDescripcion(string $descripcion): self
-    {
-        $this->descripcion = $descripcion;
-
-        return $this;
-    }
+   
 
     public function getEstado(): ?string
     {
@@ -315,4 +306,42 @@ class Task
 
         return $this;
     }
+
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->descripcion,
+     
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
+    }
+
+
+
+/** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->descripcion,
+           
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(string $descripcion): self
+    {
+        $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
 }

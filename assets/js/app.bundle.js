@@ -5130,9 +5130,14 @@
 	var _filterList = __webpack_require__(38);
 	
 	var getTaskCardInfo = function getTaskCardInfo() {
+		  $('.guardardescripcion').summernote('destroy');
+
 		var contador = 0;
+		console.log("editar por favor");
 	  $('.card-task-item').on('click.taskInfo', function (e) {
 	  	contador = contador + 1;
+	  	$(".values").empty();
+        $(".values2").empty();
 	  	console.log("contador "+$(this));
 	    var $this = $(this);
 	    $('#editTaskTitle,#editTaskNotes').editable("destroy");
@@ -5148,14 +5153,14 @@
 	    };
 	    console.log("MOVIENDOSE "+taskCard.taskListTitle);
 	    console.log(taskCard.taskCardId);
-
+ $('#task-info-wrapper .card-body #editTaskNotes').empty();
 	   	buscartareas(taskCard.taskCardId);
 
 	    //Remove data
 	    $('#task-info-wrapper .card-heading .card-number').text('');
 	    $('#task-info-wrapper .card-body #editTaskTitle').text('');
 	    $('#task-info-wrapper .card [data-task-color]').removeAttr('class');
-	    $('#task-info-wrapper .card-body #editTaskNotes').text('');
+	  //  $('#task-info-wrapper .card-body #editTaskNotes').text('');
 	    $('#task-info-wrapper .editable-inline textarea').val('');
 	    $('#task-info-wrapper .card-body .user-group > li.list-group-item').remove();
 	    //Add new data
@@ -5164,10 +5169,12 @@
 	    $('#task-info-wrapper .card-heading .reporte').text(taskCard.taskCardId);
 
 	    $('#idtask').val(taskCard.taskCardId);
-	    $('#task-info-wrapper .card-heading #taskListTitle').text(taskCard.taskListTitle);
+	    $('.card-number1').text('#'+taskCard.taskCardId);
+	    $('#task-info-wrapper .card-heading #taskListTitle').text("Detalles");
 	    $('#task-info-wrapper .card [data-task-color]').addClass(taskCard.taskCardColor);
 	    $('#task-info-wrapper .card-body #editTaskTitle').text(taskCard.taskCardTitle);
-	    $('#task-info-wrapper .card-body #editTaskNotes').text(taskCard.taskCardNotes);
+
+	   // $('#task-info-wrapper .card-body #editTaskNotes').text(taskCard.taskCardNotes);
 	    $('#task-info-wrapper .card-body .user-group').prepend(taskCard.taskCardUsers);
 	    console.log("REPORTE PARA EL LISTADO "+$('#idtask').val());
 	    listadoarchivo($('#idtask').val());	    
@@ -5186,23 +5193,26 @@
 	  });
 	  $(document).on('click', '.editable-submit', function (e) {
 	  	  console.log("editar datos");
-	    var $this = $(this),
+	  	  var updateNotes =  $('.guardardescripcion').summernote('code');
+	  	  console.log("codigos generales" + updateNotes);
+	    var $this = $(this),	    
 	        updateTitle = $this.parents('form').find('input.form-control').val(),
-	        updateNotes = $this.parents('form').find('textarea.form-control').val(),	        
+	        //updateNotes = $this.parents('form').find('.guardardescripcion').summernote('code'),	        
+
 	        activeId = $('#task-info-wrapper').find('[data-active-id]').data('activeId');
 			console.log(updateTitle);
 			console.log("NOTA: "+updateNotes);
 			modificartask(updateTitle, updateNotes,activeId);
 
 	    $('.card-task-item [data-task-id="' + activeId + '"]').find('.card-title').text(updateTitle);
-	    $('.card-task-item [data-task-id="' + activeId + '"]').find('[data-task="notes"]').text(updateNotes);
-	    $('.card-task-item [data-task-id="' + activeId + '"]').find('#descripcion').text(updateNotes);
+	    //$('.card-task-item [data-task-id="' + activeId + '"]').find('[data-task="notes"]').text(updateNotes);	    
+	    $('.card-task-item [data-task-id="' + activeId + '"]').find('#descripcion').html(updateNotes);
 	  });
 	};
 	var editInPlace = function editInPlace() {
 	  $.fn.editable.defaults.mode = 'inline';
 	  $('#editTaskTitle,#editTaskNotes').editable();
-	  console.log("editar toos");
+	  console.log("MOMENTO DE EDITAR");
 	  $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit">' + '<i class="mdi mdi-check"></i>' + '</button>' + '<button type="button" class="btn btn-default btn-fab btn-fab-xs m-5 editable-cancel">' + '<i class="mdi mdi-close"></i>' + '</button>';
 	};
 	var uniqId = function uniqId() {
@@ -5489,7 +5499,10 @@ $('[data-task="deletearchivado"]').on('click', function (e) {
 	  });
 	};
 	var editTask = function editTask() {
+
+
 	  $('[data-task="edit-task"]').on('click', function (e) {
+	  	cosnole.log("hola... esto es editar");
 	    var $this = $(this);
 	    var cardTitle = $this.parents('.card-task-item').find('.card-title'),
 	        getTitleText = cardTitle.text();
@@ -5761,7 +5774,7 @@ var contentarea3 = $("#archivado")[0];
 	};
 	//http://summernote.org/getting-started/#run-summernote
 	var triggerSummerNoteEcom = function triggerSummerNoteEcom() {
-	  $('#add_product_desc, #edit_product_desc').summernote();
+	  $('.editardescripcion, #form_descripcion, #add_product_desc, #edit_product_desc').summernote();
 	};
 	var triggerDropzoneEcom = function triggerDropzoneEcom() {
 	  if (!Dropzone || !Dropzone.length) {

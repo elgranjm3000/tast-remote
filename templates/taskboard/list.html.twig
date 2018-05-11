@@ -1,0 +1,34 @@
+ <div class="col-lg-4">
+
+                                          <div class="card">
+                                            <header class="card-heading card-default">
+                                              <h2 class="card-title">{{ taskboard.titulo }}</h2>
+                                         {#} <a href="#" data-task="deletetaskboard"><i class="zmdi zmdi-delete" ></i> 
+                                Eliminar Taskboard
+                                </a>
+                                <input type="text" name="initiatess" value="{{entity.id}}" class="myvalor">#}
+
+
+
+                                            </header>
+                                            <div class="card-body">
+                                              <p>{{ taskboard.descripcion|raw  }}</p>
+                                              <p><b>Fecha de Creación: </b>{{ taskboard.fechacreacion|date('d-m-Y') }}</p>
+                                              </div>
+                                              <div class="card-footer border-top">
+                                                <ul class="card-actions left-bottom">
+                                                  <li>
+        <a href="{{ path('task',{'id':taskboard.id}) }}" class="btn btn-default btn-flat">
+                                                      Ver Task
+                                                    </a>
+
+              <a href="#" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#exampleModal" data-whatever="{{taskboard.id}}">
+                                                      Editar Task
+                                                    </a>
+                                               
+
+                                                  </li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>

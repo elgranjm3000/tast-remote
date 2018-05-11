@@ -56,10 +56,12 @@
                             <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
                           </header>
                           <div class="card-body">
-                            <p id="descripcion">{{ entity.descripcion }}</p>
+                            <div id="descripcion">{{ entity.descripcion|raw }}</div>
+
                             <p data-task="notes">
-                              {{ entity.descripcion }}
+                              {{ entity.descripcion|striptags }}
                             </p>
+                             <p><b>Fecha de Creación: </b>{{ entity.fechacreacion|date('d-m-Y') }}</p>
                           </div>
                           <div class="card-footer border-top">
                             <ul class="card-actions icons left-bottom" data-task="metadata">
@@ -69,7 +71,7 @@
                               </li>
                               <li class="">
                                 <i class="mdi mdi-note-text"></i>
-                                <span>1</span>
+                                <span>{{entity.files|length}}</span>
                               </li>
                             </ul>
                             <ul class="card-actions right-bottom">
@@ -136,10 +138,11 @@
                             <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
                           </header>
                           <div class="card-body">
-                            <p id="descripcion">{{ entity.descripcion }}</p>
+                            <div id="descripcion">{{ entity.descripcion|raw }}</div>
                             <p data-task="notes">
-                              {{ entity.descripcion }}
+                              {{ entity.descripcion|striptags }}
                             </p>
+                             <p><b>Fecha de Creación: </b>{{ entity.fechacreacion|date('d-m-Y') }}</p>
                           </div>
                           <div class="card-footer border-top">
                             <ul class="card-actions icons left-bottom" data-task="metadata">
@@ -149,7 +152,7 @@
                               </li>
                               <li class="">
                                 <i class="mdi mdi-note-text"></i>
-                                <span>1</span>
+                                <span>{{entity.files|length}}</span>
                               </li>
                             </ul>
                             <ul class="card-actions right-bottom">
@@ -208,10 +211,11 @@
                             <h2 class="card-title" data-task="title">{{ entity.titulo }}</h2>
                           </header>
                           <div class="card-body">
-                            <p id="descripcion">{{ entity.descripcion }}</p>
+                            <div id="descripcion">{{ entity.descripcion|raw }}</div>
                             <p data-task="notes">
-                              {{ entity.descripcion }}
+                              {{ entity.descripcion|striptags }}
                             </p>
+                             <p><b>Fecha de Creación: </b>{{ entity.fechacreacion|date('d-m-Y') }}</p>
                           </div>
                           <div class="card-footer border-top">
                             <ul class="card-actions icons left-bottom" data-task="metadata">
@@ -221,7 +225,7 @@
                               </li>
                               <li class="">
                                 <i class="mdi mdi-note-text"></i>
-                                <span>1</span>
+                                <span>{{entity.files|length}}</span>
                               </li>
                             </ul>
                             <ul class="card-actions right-bottom">
@@ -248,7 +252,7 @@
           <aside style="width:600px;max-width:600px;" class="drawer-right-lg mw-lightGray" id="taskInfo">
             <div class="tabpanel">
               <ul class="nav nav-tabs nav-justified">
-                <li class="active" role="presentation"><a href="#tab-editTaskInfo" data-toggle="tab" aria-expanded="true">Detalles</a></li>
+                <li class="active" role="presentation"><a href="#tab-editTaskInfo" data-toggle="tab" aria-expanded="true">Detalles <span class="card-number1"></span></a></li>
               </ul>
             </div>
             <div class="tab-content p-20 ">
@@ -287,11 +291,12 @@
                         
 
 <div id="chronoExample">
-    <div class="values">00:00:00</div>
+    <div class="values">00:00:00</div>    
     <div class="values2" style="display:none">00:00:00</div>
     <div>
-        <button class="startButton">Iniciar</button>
-        <button class="pauseButton" >Pausar</button>      
+        <button class="startButton" >Iniciar</button>
+        <button class="pauseButton" style="display:none">Pausar</button>      
+        
         
     </div>
 </div>
@@ -323,11 +328,18 @@
                     <div class="card-body p-t-0">
                       <div class="form-group">
                         <label class="control-label">Titulo del Task</label>
-                        <a href="javascript:void(0)" class="editable editable-click editable-empty" id="editTaskTitle" data-type="text"  data-placeholder="Card Title" data-title="Enter title"></a>
+                        <a href="javascript:void(0)" class="editable editable-click editable-empty" id="editTaskTitle" data-type="text"  data-placeholder="Titulo del Task" data-title="Enter title"></a>
                       </div>
                       <div class="form-group">
-                        <label class="control-label"><i class="mdi mdi-note-text"></i> Notas</label>
-                        <a href="javascript:void(0)" id="editTaskNotes" data-type="textarea" data-placeholder="Your notes here..." data-title="Enter notes"></a>
+
+
+
+                        <label class="control-label"><i class="mdi mdi-note-text"></i> Descripcion</label>
+
+                         <textarea class="guardardescripcion" id="editTaskNotes"></textarea>
+                        {#<a href="javascript:void(0)" id="editTaskNotes" data-type="textarea" class="descripcionota" data-placeholder="Descripcion" data-title="Enter notes"></a>#}
+
+                        <button type="button" title="Guardar Descripcion" class="btn btn-primary btn-fab btn-fab-xs m-5 editable-submit"><i class="mdi mdi-check"></i></button>
                       </div>
                     </div>
                   </div>
@@ -1118,15 +1130,28 @@ $.ajax({
 });
 
 var timeresto = new Timer();
+var timepause = new Timer();
 function buscartareas(idtask){
+  $('.guardardescripcion').summernote('destroy');
+   $(".values").empty();
+    $(".values2").empty();
+      $('.pauseButton').css({"display": "none"});
+      $('.startButton').css({"display": "none"});  
   var idtask = idtask;
        $.post( "{{path('taskboardbuscar')}}", { idtask: idtask }).done(function( data ) {
-              if(data.length>0){  
+              if(data.length>0){
+
+                      var descripcion = data[0]['descripcion'];  
+                      console.log("descripcion nueva"+descripcion);
+      
+      $('#task-info-wrapper .card-body #editTaskNotes').html(descripcion);
+      $('.guardardescripcion').summernote();
+
                       var segundos = data[0]['tiempo'];
 
                     if(segundos == 0){
                       console.log("segundos en ceros");
-                        
+                        $('.startButton').css({"display": "block"}); 
                         timeresto.reset();
                         timeresto.stop();
                         $(".values").empty();
@@ -1137,7 +1162,7 @@ function buscartareas(idtask){
 
 
 console.log(data[0]['tiempo']);
-console.log(data[0]['actual']);
+console.log("fecha actual "+data[0]['actual']);
 
 
 var fecha1 = moment(data[0]['tiempo'], "YYYY-MM-DD HH:mm:ss");
@@ -1155,31 +1180,44 @@ console.log(diff);
 
 var segundos = fecha2.diff(fecha1, 's'); // Diff in hours
 console.log("segundos en fechas "+segundos);
+console.log("el status es "+data[0]['status']);
 
 if(data[0]['status'] == 'P'){
-  var segundos = data[0]['tiempo'];
-console.log("segundos en status P "+segundos);
-          timeresto.start({countdown: false, startValues: {seconds:segundos}});
+  var segundosnumeros = parseInt(data[0]['tiempo']);
+  //$(".values2").text(segundosnumeros);
+  $('.pauseButton').css({"display": "none"});
+$('.startButton').css({"display": "block"}); 
+                    
+
+console.log("segundos en status P "+segundosnumeros);
+timeresto.stop();
+timeresto.start({countdown: false, startValues: {seconds:segundosnumeros}});
           timeresto.pause();
                       
 }else{
+  $('.startButton').css({"display": "none"}); 
+$('.pauseButton').css({"display": "block"});
 
                       timeresto.stop();
                       timeresto.start({countdown: false, startValues: {seconds:segundos}});
 }
 timeresto.addEventListener('secondsUpdated', function (e) {
    //console.log(timeresto.getTotalTimeValues().seconds);
-    $('#chronoExample .values').html(timeresto.getTimeValues().toString());
+    $('#chronoExample .values').html(timeresto.getTimeValues().days + " dias "+timeresto.getTimeValues().hours + " horas "+timeresto.getTimeValues().minutes+" minutos "+timeresto.getTimeValues().seconds+ " segundos" );
+
     $('#chronoExample .values2').html(timeresto.getTotalTimeValues().seconds);
 });
 timeresto.addEventListener('started', function (e) {
      
     $('#chronoExample .values').html(timeresto.getTimeValues().toString());
+
 });
 timeresto.addEventListener('reset', function (e) {
      
     $('#chronoExample .values').html(timeresto.getTimeValues().toString());
 });
+
+
 
                      
 
@@ -1194,7 +1232,7 @@ timeresto.addEventListener('reset', function (e) {
           });
 
 
-}
+} // FIN DE BUSCAR TIEMPO
 
 var fecha1 = moment("2016-05-03 07:30:00", "YYYY-MM-DD HH:mm:ss");
 var fecha2 = moment("2016-05-04 12:30:30", "YYYY-MM-DD HH:mm:ss");
@@ -1214,25 +1252,39 @@ console.log(segundos);
 
 
 
+
+
+
+
  $('#chronoExample .startButton').click(function () {
-    
-    
-    
+  
     console.log("NRO DE TARJETA "+$('.reporte').html());
  $.post( "{{path('guardatiempo')}}", { reporte: $('.reporte').html() }).done(function( data ) {
              
-                    timeresto.start();         
+                    timeresto.start();     
+
+                      $('.startButton').css({"display": "none"});
+                      $('.pauseButton').css({"display": "block"});   
+        
               
           });
 
 
 });
 
+
+
+
 $('#chronoExample .pauseButton').click(function () {
     
+
+ 
+
 $.post( "{{path('pausatiempo')}}", { reporte: $('.reporte').html(), tiempo: $('.values2').html() }).done(function( data ) {
              
                     timeresto.pause();
+                    $('.pauseButton').css({"display": "none"});
+                    $('.startButton').css({"display": "block"});  
               
           });
 
@@ -1297,7 +1349,8 @@ $.ajax({
       beforeSend: function () {
       },
       success:  function (response) {
-        
+        console.log(response[0]['minotas']);
+        $('.card-task-item [data-task-id="' + id + '"]').find('[data-task="notes"]').text(response[0]['minotas']);
       }
     });
 
@@ -1372,6 +1425,11 @@ $.ajax({
 }
 
 
+
+  $(document).ready(function() {
+          $('.guardardescripcion').summernote();
+
+    });
 
   </script>
 {% endblock %}

@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
 class TaskController extends Controller
@@ -125,8 +126,16 @@ exit;
       }
 
         $entityManager->flush();
+
+
+        $generardatos = array();
+
+        $localidad['minotas'] =   strip_tags($tareas->getDescripcion());
         
-        exit;
+         $generardatos[] = $localidad;
+        return new JsonResponse($generardatos);
+        
+        
     }
 
 
@@ -228,6 +237,7 @@ exit;
         $localidad['tiempo'] =   $tareas->getTiempo();
         $localidad['actual'] =   date("Y-m-d H:i:s");   
         $localidad['status'] =   $tareas->getStatus();
+        $localidad['descripcion'] =   $tareas->getDescripcion();
          $generardatos[] = $localidad;
         return new JsonResponse($generardatos);
 
@@ -288,7 +298,9 @@ exit;
         $form = $this->createFormBuilder($task)
             ->add('titulo', TextType::class)
             ->add('estado', TextType::class)
-            ->add('descripcion', TextType::class)
+            ->add('descripcion', TextareaType::class, array(
+    'attr' => array('class' => 'add_product_desc'),
+))
             ->add('fechacreacion', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
             ->add('fechacomienzo', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))
             ->add('fechafin', DateTimeType::class, array('date_widget' => 'single_text', 'time_widget' => 'single_text'))

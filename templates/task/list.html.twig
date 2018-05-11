@@ -294,8 +294,12 @@
     <div class="values">00:00:00</div>    
     <div class="values2" style="display:none">00:00:00</div>
     <div>
-        <button class="startButton" >Iniciar</button>
-        <button class="pauseButton" style="display:none">Pausar</button>      
+        <button class="startButton btn-success" ><i class="zmdi zmdi-play"></i>
+</button>
+        <button class="pauseButton btn-danger" style="display:none">
+          <i class="zmdi zmdi-pause"></i>
+
+        </button>      
         
         
     </div>
@@ -1196,6 +1200,7 @@ $('.startButton').css({"display": "block"});
 console.log("segundos en status P "+segundosnumeros);
 timeresto.stop();
 timeresto.start({countdown: false, startValues: {seconds:segundosnumeros}});
+$('#chronoExample .values').html(timeresto.getTimeValues().days + " dias "+timeresto.getTimeValues().hours + " horas "+timeresto.getTimeValues().minutes+" minutos "+timeresto.getTimeValues().seconds+ " segundos" );
           timeresto.pause();
                       
 }else{

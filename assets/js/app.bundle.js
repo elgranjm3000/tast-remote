@@ -5173,6 +5173,8 @@
 
 	    $('#idtask').val(taskCard.taskCardId);
 	    $('.card-number1').text('#'+taskCard.taskCardId);
+	    $('.card-title-detalles').text(taskCard.taskCardTitle);
+	    
 	    $('#task-info-wrapper .card-heading #taskListTitle').text("Detalles");
 	    $('#task-info-wrapper .card [data-task-color]').addClass(taskCard.taskCardColor);
 	    $('#task-info-wrapper .card-body #editTaskTitle').text(taskCard.taskCardTitle);
@@ -5435,6 +5437,8 @@ console.log(link);
 	      });
 	    }, 250);
 	  });
+
+
 
 
 $('[data-task="deletefinalizado"]').on('click', function (e) {

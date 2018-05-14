@@ -2,5 +2,8 @@
   <span class="pull-left m-r-10"><i class="zmdi zmdi-image circle-xs mw-red"></i></span>
       <div class="list-group-item-body">
        <div class="list-group-item-text m-t-5"><a href="{{ asset ('uploads/') }}{{entity.name}}" target="_blank">{{ entity.name }}</a></div>
+             <a class="filedelete">Eliminar</a>
+       <input type="hidden" value="{{ entity.id }}" name="filesid" id="filesid">
+
      </div>
 </li>

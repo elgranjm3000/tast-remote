@@ -252,7 +252,7 @@
           <aside style="width:600px;max-width:600px;" class="drawer-right-lg mw-lightGray" id="taskInfo">
             <div class="tabpanel">
               <ul class="nav nav-tabs nav-justified">
-                <li class="active" role="presentation"><a href="#tab-editTaskInfo" data-toggle="tab" aria-expanded="true">Detalles <span class="card-number1"></span></a></li>
+                <li class="active" role="presentation"><a href="#tab-editTaskInfo" data-toggle="tab" aria-expanded="true">Detalles <span class="card-title-detalles"></span> <span class="card-number1"></span></a></li>
               </ul>
             </div>
             <div class="tab-content p-20 ">
@@ -1388,6 +1388,7 @@ $.ajax({
       success:  function (response) {
           
         $('#card_attchments .list-group').append(response);
+        eliminardelete();
       }
     });
 
@@ -1408,7 +1409,9 @@ $.ajax({
       },
       success:  function (response) {
           
+
         $('#card_attchments .list-group').append(response);
+        eliminardelete();
       }
     });
 }
@@ -1438,10 +1441,54 @@ $.ajax({
   $(document).ready(function() {
           $('.guardardescripcion').summernote();
 
+
+
     });
 
 
-
+function eliminardelete()
+{
+  $(".filedelete").unbind();   
+  $(".filedelete").click(function(e){
+    console.log("ELIMINANDO");
+      e.stopPropagation();
+      var $this = $(this).next().val();
+      console.log("archivo id "+$this);
+      setTimeout(function () {
+        swal({
+          title: '¿Desea eliminar este archivo?',
+          text: "No puede revertir los cambios",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, Eliminar!',
+          cancelButtonText: "Cancelar",
+        }).then(function () {
+          console.log("ELIMINANDO ARCHIVOS");         
+        //   eliminarreporte(getId);
+        $.ajax({      
+      
+              url:   '{{ url('deletefile') }}',
+              type: "GET",
+              data: {id : $this},
+      
+              beforeSend: function () {
+                 //$('.usuariosadd .card-body').empty();
+              },
+              success:  function (response) {
+                  
+                //$('.usuariosadd .card-body').append(response);
+                listadoarchivo($('#idtask').val());     
+              }
+        });
+        
+          swal('!Archivo Eliminado!', 'Archivo Eliminando Exitosamente', 'success');
+          
+        });
+      }, 250);
+});
+}
 
 
   </script>

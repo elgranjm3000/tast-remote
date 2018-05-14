@@ -25,6 +25,22 @@ class TaskController extends Controller
 
 
 
+/**
+     * @Route("/files/delete", name="deletefile")
+     */
+public function filesdelete(Request $request)
+{
+
+
+       $entityManager = $this->getDoctrine()->getManager();
+$files = $entityManager->getRepository(Files::class)->find($_GET['id']);
+         $entityManager->remove($files);
+        $entityManager->flush();
+        exit;
+
+}
+
+
 
 /**
      * @Route("/files", name="listadoarchivo")
@@ -192,10 +208,10 @@ exit;
         $entityManager = $this->getDoctrine()->getManager();
         $product = $entityManager->getRepository(Task::class)->find($id);
 
-        if($product->getStatus() == ''){
+       // if($product->getStatus() == ''){
                 $product->setTiempo($hoy);
                 $product->setStatus("I");
-        }
+     //   }
                 $entityManager->flush();
 
 

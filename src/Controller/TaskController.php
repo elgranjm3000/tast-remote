@@ -250,6 +250,8 @@ exit;
         $tareas = $repository->find($id);
         $generardatos = array();
         $localidad['fechacreacion'] =   $tareas->getFechacreacion();
+        $localidad['fechainicio'] =   date_format($tareas->getFechacomienzo(),'d/m/Y h:i:s');
+        $localidad['fechafin'] = date_format($tareas->getFechafin(),'d/m/Y h:i:s');
         $localidad['tiempo'] =   $tareas->getTiempo();
         $localidad['actual'] =   date("Y-m-d H:i:s");   
         $localidad['status'] =   $tareas->getStatus();
@@ -358,4 +360,44 @@ $form->handleRequest($request);
             'controller_name' => 'TaskController', 'form' => $form->createView() ,'tareas'=>$tareas,'idtask' => $id
         ]);
     }
+
+
+
+ /**
+     * @Route("/fechamodificar", name="fechamodificar")
+     */
+    public function fechamodificar(Request $request)
+    {
+
+       //$fecha = $_GET['inicio'];
+
+          $fecha = new \DateTime($_GET['inicio']);
+       $tipo = $_GET['tipo'];
+       $id = $_GET['id'];
+      
+        $entityManager = $this->getDoctrine()->getManager();
+        $tareas = $entityManager->getRepository(Task::class)->find($id);
+        
+        if($tipo == "I"){
+            $tareas->setFechacomienzo($fecha);
+            $entityManager->flush();
+        }
+         if($tipo == "F"){
+            $tareas->setFechafin($fecha);
+            $entityManager->flush();
+        }
+
+        
+
+
+        $generardatos = array();
+
+        $localidad['minotas'] =   strip_tags($tareas->getDescripcion());
+        
+         $generardatos[] = $localidad;
+        return new JsonResponse($generardatos);
+        
+        
+    }
+
 }

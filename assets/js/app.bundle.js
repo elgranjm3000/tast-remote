@@ -960,6 +960,7 @@
 	      $('#chat_compose_wrapper').removeClass('open');
 	    }
 	    $('.' + className + '.backdrop').fadeOut(250, function () {
+	    	console.log("pasa por aqui removiendo");
 	      $(this).remove();
 	      if ($('.backdrop').length === 0) {
 	        $html.removeClass('backdrop-open');
@@ -1003,6 +1004,8 @@
 	      }
 	    }
 	    if (className === 'open-left' || className === 'open-right' || className === 'open-left-lg' || className === 'open-right-lg') {
+
+
 	      (0, _backdrops.backDrops)(className, element, $target);
 	    } else if (className === 'toggle-left' && Modernizr.mq('(max-width: 992px)') || className === 'toggle-right' && Modernizr.mq('(max-width: 992px)')) {
 	      (0, _backdrops.backDrops)(className, element, $target);
@@ -1249,7 +1252,24 @@
 	var materialDatePicker = function materialDatePicker() {
 	  $('#md_input_date').bootstrapMaterialDatePicker({ weekStart: 0, time: false });
 	  $('#md_input_time').bootstrapMaterialDatePicker({ date: false, format: 'HH:mm' });
-	  $('#md_input_date_time').bootstrapMaterialDatePicker({ format: 'dddd DD MMMM YYYY - HH:mm' });
+	  $('#md_input_date_time').bootstrapMaterialDatePicker({ format: 'DD/MM/YYYY - HH:mm' , lang : 'fr', weekStart : 1, cancelText : 'Cancelar' });	  
+	  $('#date-format').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', lang : 'fr', weekStart : 1, cancelText : 'Cancelar' });
+
+	  $('#date-end').bootstrapMaterialDatePicker({ weekStart : 0,format : 'YYYY-MM-DD HH:mm', lang : 'fr', weekStart : 1, cancelText : 'Cancelar'  }).on('change', function(e)
+		{
+			console.log($('#date-start').val());
+			guardarstart($('#date-end').val(),'F');
+
+		});
+	  $('#date-start').bootstrapMaterialDatePicker({ weekStart : 0,format : 'YYYY-MM-DD HH:mm', lang : 'fr', weekStart : 1, cancelText : 'Cancelar'  }).on('change', function(e, date)
+		{
+			console.log($('#date-start').val());
+
+			guardarstart($('#date-start').val(),'I');
+
+
+		$('#date-end').bootstrapMaterialDatePicker('setMinDate', date);
+	});
 	};
 	var pikaday = function pikaday() {
 	  var picker = new Pikaday({
@@ -5440,6 +5460,46 @@ console.log(link);
 
 
 
+$('[data-task="deletetaskindividual"]').on('click', function (e) {
+	  	console.log("ELIMINANDO");
+	    e.stopPropagation();
+	  //  var $this = $(this);
+	    setTimeout(function () {
+	      swal({
+	        title: '¿Desea eliminar esta tareas?',
+	        text: "No puede revertir los cambios",
+	        type: 'warning',
+	        showCancelButton: true,
+	        confirmButtonColor: '#3085d6',
+	        cancelButtonColor: '#d33',
+	        confirmButtonText: 'Si, Eliminar!',
+	        cancelButtonText: "Cancelar",
+	      }).then(function () {
+	      	console.log("ELIMINANDO TODOS LOS REGISTROS");	
+	      		var getId = $('#idtask').val();
+        	    console.log("nro "+getId);
+ 			eliminarreporte(getId);
+ //('#content_wrapper').click();
+   			var $html = $('html');  
+	      	$('[data-task-id="' + getId + '"]').parent().remove();
+	        $html.removeClass('backdrop-open');
+	      	$('#content_wrapper').removeClass('open-right-lg');
+ 			$('.backdrop').remove();	
+// 	    $('body').removeClass('app_sidebar-left-open');
+
+
+
+        	   // eliminarreporte(getId);
+	       // $('#finalizado .card-task-item').remove();
+	        //$('[data-task="add-task"]').removeAttr('disabled');
+	        swal('!Tarea Eliminadas!', 'Su Tarea sido eliminada.', 'success');
+	        getTaskCount();
+	      });
+	    }, 250);
+	  });
+
+
+
 
 $('[data-task="deletefinalizado"]').on('click', function (e) {
 	  	console.log("ELIMINANDO");
@@ -5516,6 +5576,13 @@ $('[data-task="deletearchivado"]').on('click', function (e) {
  		$('#editTaskNotes').summernote({focus: true});
  		 	$('.editarnotes').css({'display':'block'});
  });
+
+
+
+
+
+
+
 	  $('[data-task="edit-task"]').on('click', function (e) {
 	  	cosnole.log("hola... esto es editar");
 	    var $this = $(this);

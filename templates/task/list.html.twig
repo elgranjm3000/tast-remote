@@ -53,7 +53,10 @@
 
                         <input type="hidden" value="{{ entity.id }}" id="dataid" >
                           <header class="card-heading">
+
                             <h2 class="card-title" data-task="title">{{entity.titulo}}</h2>
+
+
                           </header>
                           <div class="card-body">
                             <div id="descripcion">{{ entity.descripcion|raw }}</div>
@@ -249,7 +252,7 @@
             </div>
           </div>
           </div>
-          <aside style="width:600px;max-width:600px;" class="drawer-right-lg mw-lightGray" id="taskInfo">
+<aside style="width:600px;max-width:600px;" class="drawer-right-lg mw-lightGray" id="taskInfo">
             <div class="tabpanel">
               <ul class="nav nav-tabs nav-justified">
                 <li class="active" role="presentation"><a href="#tab-editTaskInfo" data-toggle="tab" aria-expanded="true">Detalles <span class="card-title-detalles"></span> <span class="card-number1"></span></a></li>
@@ -270,8 +273,10 @@
                       <span class="date-wrapper pull-right">
                         <div class="form-group date is-empty">
                           <div class="input-group">
-                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                            <input type="text" class="form-control" type="date" value="2018-05-01" readonly="">
+                        
+                            <input type="text" class="form-control datepicker" id="date-end" type="date" placeholder="Hasta">
+                        <span class="input-group-addon last"><i class="zmdi zmdi-time"></i></span>
+
                           </div>
                         </div>
                       </span>
@@ -279,8 +284,8 @@
                        <span class="date-wrapper pull-right">
                         <div class="form-group date is-empty">
                           <div class="input-group">
-                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                            <input type="text" class="form-control"  type="date" value="2018-04-01" readonly="">
+                            <input type="text" class="form-control datepicker" id="date-start" type="date" placeholder="Desde">
+                        <span class="input-group-addon last"><i class="zmdi zmdi-time"></i></span>
                           </div>
                         </div>
                       </span>
@@ -323,7 +328,7 @@
                           </a>
                           <ul class="dropdown-menu btn-primary dropdown-menu-right">
                             <li>
-                              <a href="javascript:void(0)"><i class="zmdi zmdi-delete"></i> Remove List</a>
+                              <a href="javascript:void(0)" data-task="deletetaskindividual"><i class="zmdi zmdi-delete"></i> Eliminar Tarea</a>
                             </li>
                           </ul>
                         </li>
@@ -1148,9 +1153,12 @@ function buscartareas(idtask){
   var idtask = idtask;
        $.post( "{{path('taskboardbuscar')}}", { idtask: idtask }).done(function( data ) {
               if(data.length>0){
+                      $('#date-start').val(data[0]['fechainicio']);
+                      $('#date-end').val(data[0]['fechafin']);
+
 
                       var descripcion = data[0]['descripcion'];  
-                      console.log("descripcion nueva"+descripcion);
+                      console.log("inicio "+data[0]['fechainicio']+ " fin "+data[0]['fechafin']);
       
       //$('#task-info-wrapper .card-body #editTaskNotes').html(descripcion);
       //$('.guardardescripcion').summernote();
@@ -1440,7 +1448,7 @@ $.ajax({
 
   $(document).ready(function() {
           $('.guardardescripcion').summernote();
-
+          $('#iniciofecha').datetimepicker();
 
 
     });
@@ -1490,6 +1498,22 @@ function eliminardelete()
 });
 }
 
+
+function guardarstart(fecha,tipo){
+console.log("tipo de guardar fecha: "+tipo);
+  var id = $('#idtask').val();
+  $.ajax({      
+      
+      url:   '{{ url('fechamodificar') }}',
+      type: "GET",
+      data: { id : id, inicio : fecha, tipo : tipo },    
+      beforeSend: function () {
+      },
+      success:  function (response) {
+        
+      }
+    });
+}
 
   </script>
 
